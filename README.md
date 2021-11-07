@@ -255,7 +255,7 @@ Taking that FO designers paid closer attention to armor DR and was quite conserv
 
 ### Ammo AC mod, DR mod and damage mod
 
-I agree with FO2Tweaks Damage mod author that all of these parameters are pulled out of ass. Especially AC mod one. It is easy to imagine ammo type affects armor penetration and delivered damage but affecting chance to hit??? It does not make much sense in vanilla anyway. Most ammo types have zero or negligible AC mod. If you also pay attention to that same weapon AP and non-AP ammo variations have *same* AC mod (5mm, .44 Magnum, 10mm AP, Flamethrower fuel, HN Needler cartridge) then it becomes clear that designers actually used *ammo* AC mod to adjust corresponding *weapon* accuracy. Conclusion: it is safe and much clearer to exclude AC mod from game mechanics.
+I agree with FO2Tweaks Damage mod author that all of these parameters are pulled out of ass. Especially AC mod one. It is easy to imagine ammo type affects armor penetration and delivered damage but affecting chance to hit??? It does not make much sense in vanilla anyway. Most ammo types have zero or negligible AC mod. If you also pay attention to that same weapon AP and non-AP ammo variations have *same* AC mod (5mm, .44 Magnum, 10mm AP, Flamethrower fuel, HN Needler cartridge) then it becomes clear that designers actually used *ammo* AC mod to adjust corresponding *weapon* accuracy. Conclusion: it is safe and clearer to exclude AC mod from game mechanics.
 
 Optionally, weapons using ammo with originally high negative AC mod can be assigned "weapon accurate" perk to compensate for disabling AC mod parameter.
 
