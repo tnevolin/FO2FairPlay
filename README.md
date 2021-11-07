@@ -113,14 +113,14 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 *Implemented*
 
-skill: required skill
-stats: required stats
-bonus: bonus damage
-AP: AP requirement
-crit: bonus criticals
-prc: armor piercing
-dmg: average damage with ST=5
-dmg / AP: average damage (accounting criticals) per AP
+* skill: required skill
+* stats: required stats
+* bonus: bonus damage
+* AP: AP requirement
+* crit: bonus criticals
+* prc: armor piercing
+* dmg: average damage with ST=5
+* dmg / AP: average damage (accounting criticals) per AP
 
 | name | skill | stats | bonus | AP | crit | prc | dmg | dmg / AP |
 |----|----:|----|----:|----:|----:|:----:|----:|----:|
