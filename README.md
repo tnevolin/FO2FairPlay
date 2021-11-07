@@ -107,7 +107,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 * All ranged/throwing combat skills base is 30. They are useless below that point due to accuracy formula.
 * All ranged/throwing combat skills depends just slightly on AG + PE. No more preference for small guns.
-* Speach and Barter now are 10% x CH raising initial and drug induced CH attractiveness.
+* Speach and Barter now are 10% x CH increasing initial and drug induced CH attractiveness.
 
 # Unarmed attacks
 
