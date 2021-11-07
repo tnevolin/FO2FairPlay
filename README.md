@@ -223,15 +223,15 @@ Skill rate = 10 + 1 * IN
 
 *NOT Implemented*
 
-FO2 ties party size with CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership or sort?).
+FO2 ties party size to CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership/spirit or sort?).
 
 ## Potential solutions
 
-* `Friendly critters damage bonus (including dude) = -25% + 5% x CH`.
-* Comprehension adds 50% of SP equivalent as advertised.
+* `Friendly critters DR bonus (including dude) = -20% + 4% x CH`
 
-## Effect
+# AC, DT, DR simplification
 
-* Eliminates book exploit as they are now awarding SP and not skill increase directly.
-* Book continues contributing to skill beyond 100% albeit slower. Thus Comprehension perk is not a complete waste now.
+There are a lot combat calculation parameters in game those make it quite unplayable without consulting weapon/armor parameters table and calculator. They are definitely redundant and I believe these parameters should be simplified as much as possible to be intuitive enough.
+
+Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgforge.net/viewtopic.php?f=26&p=388). It ties ammo DT/DR modifier, ammor damage modifier, and armor DT/DR all together removing unnecessary variable clutter.
 
