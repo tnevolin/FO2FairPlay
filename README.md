@@ -227,7 +227,7 @@ FO2 ties party size with CH making it not absolutely worthless. I feel it is sti
 
 ## Potential solutions
 
-* Friendly critters damage bonus (including dude) = `-25% + 5% x CH`.
+* `Friendly critters damage bonus (including dude) = -25% + 5% x CH`.
 * Comprehension adds 50% of SP equivalent as advertised.
 
 ## Effect
