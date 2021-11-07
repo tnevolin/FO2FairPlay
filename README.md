@@ -4,7 +4,7 @@ Fallout 2 modification for more fair play mechanics.
 
 # Main idea
 
-Fallout is advertised as an extremely flexible game where any possible build or skill set has a fair chance to go through the game in their own fashion. This idea alone makes it a superior not aging game still attracting players. Unfortunately, some game mechanics implementation restrict maximal flexibility putting shadowing some game features. This mod intends to highlight and give second chance to these undervalued features expanding game play style variability.
+Fallout is advertised as an extremely flexible game where any possible build or skill set has a fair chance to go through the game in their own fashion. This idea alone makes it a superior not aging game still attracting players. Unfortunately, some game mechanics implementation restrict maximal flexibility shadowing some game features in favor of others. This mod intends to highlight and give second chance to these undervalued features expanding game play style variability.
 
 Reviving inferior features is a two-ways effort. From one hand, these features need to be strengthen out and given more important purpose, obviously. From another, some superior features need to be toned down so they do not shadow others. Some people call it a *balance*. However, I am not so concerned about perfect balance here but more about fairness and viability of all possible game features at their disposal. Multitude of such unrainesses demands players to research and study game mechanics in order to simply start a game. Ignoring these quirks and undocumented behavior may result in unviable build and serious fun killing game progressing pain.
 
