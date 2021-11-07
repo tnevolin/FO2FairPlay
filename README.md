@@ -38,7 +38,7 @@ AC = 3 * AG
 * Lowering AG below AP contribution threshold does not cripple character permitting viable non AG builds.
 * High AG / high AP build is still possible and is no worse than in vanilla.
 * No more stupid halves AG to AP dependency forcing players unnaturally adjust exact AG value. Ugh.
-* Drugs and other AG modifying effects have direct predictable impact on AP once they breach the threshold.
+* Drugs and other AG modifying effects have direct predictable impact on AP.
 * Every AG point below AP contribution threshold is still quite useful for two reasons:
 	* Less drugs required to increase AP for higher AG values even if under threshold.
 	* AG now adds significant value to AC. So even lower AG points matter for character defense.
