@@ -6,7 +6,7 @@ Fallout 2 modification for more fair play mechanics.
 
 Fallout is advertised as an extremely flexible game where any possible build or skill set has a fair chance to go through the game in their own fashion. This idea alone makes it a superior not aging game still attracting players. Unfortunately, some game mechanics implementation restrict maximal flexibility shadowing some game features in favor of others. This mod intends to highlight and give second chance to these undervalued features expanding game play style variability.
 
-Reviving inferior feature requires not only enhancing said feature value but also toning down any superior features (and exploits) for fairer option distribution among them.
+Reviving inferior feature requires not only enhancing said feature value but also toning down any superior features (and exploits) for fairer options distribution among them.
 
 ## Inferior/superior features and exploits examples
 
