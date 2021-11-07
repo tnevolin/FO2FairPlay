@@ -145,7 +145,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 * Secondary attacks take more time but more damaging, and have higher criticals comparing to primary ones.
 * High end unarmed attacks are comparable to mega power fist.
 
-Streamlined unarmed attacks to reduce table consulting during the game and make it more intuitive and easy to chose options. Now player naturally uses faster punches agains unarmored targets for maximized damage / AP, switch to kicks against more armored ones, and then to top level secondary attacks for higher damage and armor piercing. Also higher level punches provide hefty critical bonus at expense of sheer damage if player wants to rely aimed criticals or just for increased fun.
+Streamlined unarmed attacks to reduce table consulting during the game and make it more intuitive and easy to chose options. Now player naturally uses faster punches agains unarmored targets for maximized damage / AP, switch to kicks against more armored ones, and then to top level secondary attacks for higher damage and armor piercing. Also higher level punches provide hefty critical bonus at expense of sheer damage if player wants to rely on aimed criticals or just for increased fun.
 
 # AP carryover
 
