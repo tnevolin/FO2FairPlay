@@ -125,8 +125,8 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 | Palm Strike | 110 | AG/ST=5 | +20 | 4 | 30 | + | 23 | 7.48 |
 | Power Kick | 120 | AG/ST/EN=4 | +30 | 4 | 5 | | 33 | 8.66 |
 | Haymaker | 130 | AG/ST/EN=4 | +20 | 3 | 15 | | 23 | 8.82 |
-| + Kick | 140 | AG/ST/EN=6 | +45 | 6 | 20 | + | 48 | 9.60 |
-| + Strike | 150 | AG/ST/EN=6 | +30 | 5 | 50 | + | 33 | 9.90 |
+| Peircing Kick | 140 | AG/ST/EN=6 | +45 | 6 | 20 | + | 48 | 9.60 |
+| Peircing Strike | 150 | AG/ST/EN=6 | +30 | 5 | 50 | + | 33 | 9.90 |
 
 * New attacks come at 10% skill intervals.
 * Stats requirements are reduced especially on lower level when player may not have drugs to raise them. EN requirement added for top level attacks instead.
