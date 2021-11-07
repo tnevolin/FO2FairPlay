@@ -19,6 +19,12 @@ Reviving inferior feature requires not only enhancing said feature value but als
 
 sFall: to all its authors and contributors. Making modding much easier!
 
+# HP affected by stats change
+
+*Implemented*
+
+HP is affected by immediate stat change. Specifically eating EN enhancing drugs results in corresponding HP increase.
+
 # Initial HP
 
 *Implemented*
@@ -96,9 +102,9 @@ Of course, it would be better to correct skills themselves and make them work ev
 
 Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish every point and be mindful of their character specialization and not to become jack-of-all-trades.
 
-* Skill cost is based on point spent. Thus eliminating skill cost exploits.
+* Skill cost is based on points *spent*. Thus eliminating skill cost exploits.
 * Average stats character should end up with all initial skills at about 25%.
-* Any following spent 25% increment cost by one.
+* First 25% skill increase cost 1 SP each. Any following 25% skill increase increment SP cost by one.
 
 #### Skill cost based on SP *spent* (not current level)
 
@@ -176,17 +182,56 @@ AP pool is relatively low comparing to weapon attack AP requirements. That cause
 
 This mod allows carrying up to 3 skipped APs over to next round. This way modifying AP pool by small amount like plus/minus 1 AP results in smooth and direct addition to mobility and firepower. The above "7 AP for 4 AP spear thrust" example now grants one additional attack every 3 out of 4 rounds as it should. No more weapon tables consulting - more pure gaming!
 
-# Book SP
+# Book affected skills
 
 *NOT Implemented*
 
-* Book grants 2 SP (3 SP with Comprehention).
+Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.
+
+## Potential solutions
+
+* Introduce books for each skill or for most important skills, at least. Big Guns and Energy Weapons are few examples. Tough to implement as new books need to be distributed in the world.
+* Let existing books contribute to multiple skills either at the same time or to one of them by choice either random or conditional (to the least developed, for example).
+
+# Book SP effect
+
+*NOT Implemented*
+
+It would be nice to exclude any book related exploits and to have book affect skill beyond 100% maybe at diminished effect.
+
+## Potential solutions
+
+* Book contributes an equivalent of 6 SP spent on target skill rounded down. The remainder of unspent SP goes to generic SP pool.
+* Comprehension adds 50% of SP equivalent as advertised.
+
+## Effect
+
+* Eliminates book exploit as they are now awarding SP and not skill increase directly.
+* Book continues contributing to skill beyond 100% albeit slower. Thus Comprehension perk is not a complete waste now.
 
 # IN effect on Skill rate
 
 *NOT Implemented*
 
+Reduce IN effect on SP rate making it still desirable but not absolute must as skills could be raised by books as well.
+
 ```
 Skill rate = 10 + 1 * IN
 ```
+
+# CH effect on combat
+
+*NOT Implemented*
+
+FO2 ties party size with CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership or sort?).
+
+## Potential solutions
+
+* Friendly critters damage bonus (including dude) = `-25% + 5% x CH`.
+* Comprehension adds 50% of SP equivalent as advertised.
+
+## Effect
+
+* Eliminates book exploit as they are now awarding SP and not skill increase directly.
+* Book continues contributing to skill beyond 100% albeit slower. Thus Comprehension perk is not a complete waste now.
 
