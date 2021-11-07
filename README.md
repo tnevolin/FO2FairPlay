@@ -119,16 +119,16 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 * Combat skills depends on various more or less lore related stats.
 * Speach and Barter are both now 5% x CH increasing CH stat attractiveness.
 
-| skill | formula |
-|----|----|
-| Small Guns | 5 + 2 \* AG + 2 \* PE |
-| Big Guns | 5 + 2 \* ST + 2 \* EN |
-| Energy Weapons | 5 + 2 \* AG + 2 \* IN |
-| Unarmed | 5 + 1 \* AG + 1 \* ST + 2 \* EN |
-| Melee | 5 + 1 \* AG + 2 \* ST + 1 \* EN |
-| Throwing | 5 + 2 \* AG + 2 \* ST |
-| Speach | 0 + 5 \* CH |
-| Barter | 0 + 5 \* CH |
+| skill | formula | comment |
+|----|----|----|
+| Small Guns | 5 + 2 \* AG + 2 \* PE | Two main stats for ability to aim. |
+| Big Guns | 5 + 2 \* ST + 2 \* EN | Lift and hold heavy armament for battle duration. |
+| Energy Weapons | 5 + 2 \* AG + 2 \* IN | Sophisticated weapons require advanced knowledge. |
+| Unarmed | 5 + 1 \* AG + 1 \* ST + 2 \* EN | Multiple martial art stats with emphasis on endurance. |
+| Melee | 5 + 1 \* AG + 2 \* ST + 1 \* EN | Multiple martial art stats with emphasis on strength. |
+| Throwing | 5 + 2 \* AG + 2 \* ST | Both are used in throwing. |
+| Speach | 0 + 5 \* CH | |
+| Barter | 0 + 5 \* CH | |
 
 # Unarmed attacks
 
