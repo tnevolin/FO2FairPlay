@@ -235,7 +235,7 @@ FO2 ties party size to CH making it not absolutely worthless. I feel it is still
 
 There are a lot combat calculation parameters in game those make it quite unplayable without consulting weapon/armor parameters table and calculator. They are definitely redundant and I believe these parameters should be simplified as much as possible for more intuitive play.
 
-Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgforge.net/viewtopic.php?f=26&p=388). It ties ammo DT/DR modifier, ammor damage modifier, and armor DT/DR all together removing unnecessary variable clutter.
+Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgforge.net/viewtopic.php?f=26&p=388). It ties ammo DT/DR modifier, ammo damage modifier, and armor DT/DR all together removing unnecessary variable clutter.
 
 I would like to continue this path giving simple meaning to different game parameters allowing players to estimate their corresponding effect without use of item parameter tables and heavy formulas.
 
