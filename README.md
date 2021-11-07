@@ -113,20 +113,20 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 *Implemented*
 
-| type | category | name | skill | stats | damage | AP | crit | note | avg dmg (ST=5) | (avg dmg + crit) / AP |
+| type | cat | name | skill | stats | damage | AP | crit | note | avg dmg (ST=5) | (avg dmg + crit) / AP |
 |----|----|----|----:|----|----:|----:|----:|----|----:|----:|
-| kick | primary | Strong Kick | 40% | AG=4 | +5 | 4 | | | 8 | 2.00 |
-| punch | primary | Strong Punch | 50% | AG=4 | +3 | 3 | | | 6 | 2.00 |
-| kick | secondary | Hip Kick | 60% | AG=4 | +10 | 4 | | | 13 | 3.25 |
-| punch | secondary | Jab | 70% | AG=4 | +7 | 3 | 10 | | 10 | 3.67 |
-| kick | primary | Snap Kick | 80% | AG=4, ST=4 | +18 | 4 | | | 21 | 5.25 |
-| punch | primary | Hammer Punch | 90% | AG=4, ST=4 | +13 | 3 | 5 | | 16 | 5.60 |
-| kick | secondary | Hook Kick | 100% | AG=5, ST=5 | +30 | 5 | 10 | armor piercing | 33 | 7.26 |
-| punch | secondary | Palm Strike | 110% | AG=5, ST=5 | +20 | 4 | 30 | armor piercing | 23 | 7.48 |
-| kick | primary | Power Kick | 120% | AG=4, ST=4, EN=4 | +30 | 4 | 5 | | 33 | 8.66 |
-| punch | primary | Haymaker | 130% | AG=4, ST=4, EN=4 | +20 | 3 | 15 | | 23 | 8.82 |
-| kick | secondary | Piercing Kick | 140% | AG=6, ST=6, EN=6 | +45 | 6 | 20 | armor piercing | 48 | 9.60 |
-| punch | secondary | Piercing Strike | 150% | AG=6, ST=6, EN=6 | +30 | 5 | 50 | armor piercing | 33 | 9.90 |
+| kick | pri | Strong Kick | 40% | AG=4 | +5 | 4 | | | 8 | 2.00 |
+| punch | pri | Strong Punch | 50% | AG=4 | +3 | 3 | | | 6 | 2.00 |
+| kick | sec | Hip Kick | 60% | AG=4 | +10 | 4 | | | 13 | 3.25 |
+| punch | sec | Jab | 70% | AG=4 | +7 | 3 | 10 | | 10 | 3.67 |
+| kick | pri | Snap Kick | 80% | AG=4, ST=4 | +18 | 4 | | | 21 | 5.25 |
+| punch | pri | Hammer Punch | 90% | AG=4, ST=4 | +13 | 3 | 5 | | 16 | 5.60 |
+| kick | sec | Hook Kick | 100% | AG=5, ST=5 | +30 | 5 | 10 | armor piercing | 33 | 7.26 |
+| punch | sec | Palm Strike | 110% | AG=5, ST=5 | +20 | 4 | 30 | armor piercing | 23 | 7.48 |
+| kick | pri | Power Kick | 120% | AG=4, ST=4, EN=4 | +30 | 4 | 5 | | 33 | 8.66 |
+| punch | pri | Haymaker | 130% | AG=4, ST=4, EN=4 | +20 | 3 | 15 | | 23 | 8.82 |
+| kick | sec | Piercing Kick | 140% | AG=6, ST=6, EN=6 | +45 | 6 | 20 | armor piercing | 48 | 9.60 |
+| punch | sec | Piercing Strike | 150% | AG=6, ST=6, EN=6 | +30 | 5 | 50 | armor piercing | 33 | 9.90 |
 
 * New attacks come at 10% skill intervals.
 * Stats requirements are reduced especially on lower level when player may not have drugs to raise them.
