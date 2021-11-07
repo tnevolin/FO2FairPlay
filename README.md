@@ -187,6 +187,6 @@ This mod allows carrying up to 3 skipped APs over to next round. This way modify
 *NOT Implemented*
 
 ```
-Skill rate = 10 + 2 * IN
+Skill rate = 10 + 1 * IN
 ```
 
