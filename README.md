@@ -35,7 +35,7 @@ AC = 3 * AG
 ```
 
 * Base AP is now sufficient to perform any action and making player moderately combat mobile.
-* Lowering AG below AP contribution threshold does not cripple character allowing for non AG builds.
+* Lowering AG below AP contribution threshold does not cripple character permitting viable non AG builds.
 * High AG / high AP build is still possible and is no worse than in vanilla.
 * No more stupid halves AG to AP dependency forcing players unnaturally adjust exact AG value. Ugh.
 * Drugs and other AG modifying effects have direct predictable impact on AP once they breach the threshold.
