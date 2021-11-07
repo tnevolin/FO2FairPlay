@@ -176,3 +176,17 @@ AP pool is relatively low comparing to weapon attack AP requirements. That cause
 
 This mod allows carrying up to 3 skipped APs over to next round. This way modifying AP pool by small amount like plus/minus 1 AP results in smooth and direct addition to mobility and firepower. The above "7 AP for 4 AP spear thrust" example now grants one additional attack every 3 out of 4 rounds as it should. No more weapon tables consulting - more pure gaming!
 
+# Book SP
+
+*NOT Implemented*
+
+* Book grants 2 SP (3 SP with Comprehention).
+
+# IN effect on Skill rate
+
+*NOT Implemented*
+
+```
+Skill rate = 10 + 2 * IN
+```
+
