@@ -113,7 +113,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 *Implemented*
 
-| type | name | skill | stats | damage | AP | crit | note | avg dmg (ST=5) | (avg dmg + crit) / AP |
+| type | name | skill | stats | dmg | AP | crit | piercing | avg dmg (ST=5) | (avg dmg + crit) / AP |
 |----|----|----:|----|----:|----:|----:|----|----:|----:|
 | k/p | Strong Kick | 40 | AG=4 | +5 | 4 | | | 8 | 2.00 |
 | p/p | Strong Punch | 50 | AG=4 | +3 | 3 | | | 6 | 2.00 |
@@ -121,12 +121,12 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 | p/s | Jab | 70 | AG=4 | +7 | 3 | 10 | | 10 | 3.67 |
 | k/p | Snap Kick | 80 | AG=4, ST=4 | +18 | 4 | | | 21 | 5.25 |
 | p/p | Hammer Punch | 90 | AG=4, ST=4 | +13 | 3 | 5 | | 16 | 5.60 |
-| k/s | Hook Kick | 100 | AG=5, ST=5 | +30 | 5 | 10 | armor piercing | 33 | 7.26 |
-| p/s | Palm Strike | 110 | AG=5, ST=5 | +20 | 4 | 30 | armor piercing | 23 | 7.48 |
+| k/s | Hook Kick | 100 | AG=5, ST=5 | +30 | 5 | 10 | piercing | 33 | 7.26 |
+| p/s | Palm Strike | 110 | AG=5, ST=5 | +20 | 4 | 30 | piercing | 23 | 7.48 |
 | k/p | Power Kick | 120 | AG=4, ST=4, EN=4 | +30 | 4 | 5 | | 33 | 8.66 |
 | p/p | Haymaker | 130 | AG=4, ST=4, EN=4 | +20 | 3 | 15 | | 23 | 8.82 |
-| k/s | Piercing Kick | 140 | AG=6, ST=6, EN=6 | +45 | 6 | 20 | armor piercing | 48 | 9.60 |
-| p/s | Piercing Strike | 150 | AG=6, ST=6, EN=6 | +30 | 5 | 50 | armor piercing | 33 | 9.90 |
+| k/s | Piercing Kick | 140 | AG=6, ST=6, EN=6 | +45 | 6 | 20 | piercing | 48 | 9.60 |
+| p/s | Piercing Strike | 150 | AG=6, ST=6, EN=6 | +30 | 5 | 50 | piercing | 33 | 9.90 |
 
 * New attacks come at 10% skill intervals.
 * Stats requirements are reduced especially on lower level when player may not have drugs to raise them.
