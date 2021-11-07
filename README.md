@@ -99,7 +99,7 @@ Of course, it would be better to correct skills themselves and make them work ev
 151% to 300% costs 6 Skill points
 ```
 
-Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish them and be mindful of their character specialization and not to become jack-of-all-trades.
+Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish every point and be mindful of their character specialization and not to become jack-of-all-trades.
 
 # Skill initial value
 
