@@ -113,7 +113,16 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 *Implemented*
 
-| name | skill | stats | bon | AP | crit | prc | dmg | dmg / AP |
+skill: required skill
+stats: required stats
+bonus: bonus damage
+AP: AP requirement
+crit: bonus criticals
+prc: armor piercing
+dmg: average damage with ST=5
+dmg / AP: average damage (accounting criticals) per AP
+
+| name | skill | stats | bonus | AP | crit | prc | dmg | dmg / AP |
 |----|----:|----|----:|----:|----:|:----:|----:|----:|
 | Strong Kick | 40 | AG=4 | +5 | 4 | | | 8 | 2.00 |
 | Strong Punch | 50 | AG=4 | +3 | 3 | | | 6 | 2.00 |
@@ -134,6 +143,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 * Average damage (accounting criticals) per AP steadily grows with more advanced attack. There is no a single attack comptely inferior to preceeding one.
 * Punches are faster, deliver slightly more damage / AP, and have higher criticals. Kicks are generaly more damaging per attack.
 * Secondary attacks take more time but more damaging, and have higher criticals comparing to primary ones.
+* High end unarmed attacks are comparable to mega power fist.
 
 Streamlined unarmed attacks to reduce table consulting during the game and make it more intuitive and easy to chose options. Now player naturally uses faster punches agains unarmored targets for maximized damage / AP, switch to kicks against more armored ones, and then to top level secondary attacks for higher damage and armor piercing. Also higher level punches provide hefty critical bonus at expense of sheer damage if player wants to rely aimed criticals or just for increased fun.
 
