@@ -15,6 +15,10 @@ Reviving inferior feature requires not only enhancing said feature value but als
 * Unarmed attacks are laghingstock.
 * Intelligence affects SP rate great deal effectivelly requiring to have it high or suffer from skills underdevelopment.
 
+# Thanks
+
+sFall: to all its authors and contributors. Making modding much easier!
+
 # Initial HP
 
 *Implemented*
@@ -90,18 +94,24 @@ Of course, it would be better to correct skills themselves and make them work ev
 
 *Implemented*
 
-```
-  1% to  50% costs 1 skill point
- 51% to  75% costs 2 Skill points
- 76% to 100% costs 3 Skill points
-101% to 125% costs 4 Skill points
-126% to 150% costs 5 Skill points
-151% to 300% costs 6 Skill points
-```
-
 Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish every point and be mindful of their character specialization and not to become jack-of-all-trades.
 
-# Skill initial value
+* Skill cost is based on point spent. Thus eliminating skill cost exploits.
+* Average stats character should end up with all initial skills at about 25%.
+* Any following spent 25% increment cost by one.
+
+#### Skill cost based on SP *spent* (not current level)
+
+```
+  1% to  25% costs 1 skill point
+ 26% to  50% costs 2 skill points
+ 51% to  75% costs 3 Skill points
+ 76% to 100% costs 4 Skill points
+101% to 125% costs 5 Skill points
+126% to 300% costs 6 Skill points
+```
+
+# Skill initial values
 
 *Implemented*
 
