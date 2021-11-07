@@ -115,9 +115,20 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 *Implemented*
 
-* All ranged/throwing combat skills base is 30. They are useless below that point due to accuracy formula.
-* All ranged/throwing combat skills depends just slightly on AG + PE. No more preference for small guns.
-* Speach and Barter now are 10% x CH increasing initial and drug induced CH attractiveness.
+* Combat skills base is about same for all of them. No more Small Guns preference.
+* Combat skills depends on various more or less lore related stats.
+* Speach and Barter are both now 5% x CH increasing CH stat attractiveness.
+
+| skill | formula |
+|----|----|
+| Small Guns | 5 + 2 \* AG + 2 \* PE |
+| Big Guns | 5 + 2 \* ST + 2 \* EN |
+| Energy Weapons | 5 + 2 \* AG + 2 \* IN |
+| Unarmed | 5 + 1 \* AG + 1 \* ST + 2 \* EN |
+| Melee | 5 + 1 \* AG + 2 \* ST + 1 \* EN |
+| Throwing | 5 + 2 \* AG + 2 \* ST |
+| Speach | 0 + 5 \* CH |
+| Barter | 0 + 5 \* CH |
 
 # Unarmed attacks
 
