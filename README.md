@@ -51,7 +51,7 @@ AC = 3 * AG
 * Drugs and other AG modifying effects have direct predictable impact on AP.
 * Every AG point below AP contribution threshold is still quite useful for two reasons:
 	* Less drugs required to increase AP for higher AG values even if under threshold.
-	* AG now adds significant value to AC. So even lower AG points matter for character defense.
+	* AG now adds more to natural AC. So even lower AG points matter for character defense.
 
 # Strength melee damage bonus
 
@@ -231,7 +231,31 @@ FO2 ties party size to CH making it not absolutely worthless. I feel it is still
 
 # AC, DT, DR simplification
 
+*NOT Implemented*
+
 There are a lot combat calculation parameters in game those make it quite unplayable without consulting weapon/armor parameters table and calculator. They are definitely redundant and I believe these parameters should be simplified as much as possible to be intuitive enough.
 
 Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgforge.net/viewtopic.php?f=26&p=388). It ties ammo DT/DR modifier, ammor damage modifier, and armor DT/DR all together removing unnecessary variable clutter.
+
+I would like to continue this path giving simple meaning to different game parameters allowing players to estimate their corresponding effect without use of item parameter tables and heavy formulas.
+
+## Proposed approach
+
+### Accuracy and AC
+
+Accuracy is an ability to hit the target. AC is a corresponding counter for it: an ability to disrupt opponent's aiming and worsen their accuracy. Accuracy grows with the skill advancement as game progresses. So should the armor AC to play natural counter and restrict accuracy from skyroketing beyond 200% beyond which skill investment is useless. To put it differently, player invests into combat skill to overcome evergrowing opponents' AC.
+
+With that in mind armor AC should grow proportionally to its percieved "strength" but should not go higher than say 20%-30%. Vanilla does a pretty good job on that except some types of leather armor somehow are more AC protective than metal armor. That probably should be corrected.
+
+### Armor DT and DR
+
+I agree with FO2Tweaks Damage mod that these parameters are completely redundant. Granted they work different ways but nobody largely care. Better armor should provide better protection on average, that's all. Luckily, the same FO2Tweaks Damage mod made ammo DR mod affecting both DT and DR synchronized way. So either of them can be easily discarded. From one hand, DR seems like an armor natural *impact stopping* property nullifying damage below certain threshold. From another, it would be notiriously difficult to balance against quite variative enemy damage range. This is especially risky in combination with weapon mods introducing weapons with new damage ranges. DR in its turn is just a self explanatory number of proportional damage reduction working well with any weapon damage range.
+
+Taking that FO designers paid closer attention to armor DR and was quite conservative about DT, I would keep armor DT out of scope leaving only DR as game wide defensive parameter affected by armor, derived stats, drugs, etc.
+
+### Ammo AC mod, DR mod and damage mod
+
+I agree with FO2Tweaks Damage mod author that all of these parameters are pulled out of ass. Especially AC mod one. It is easy to imagine ammo type affects armor penetration and delivered damage but affecting chance to hit??? It does not make much sense in vanilla anyway. Most ammo types have zero or negligible AC mod. If you also pay attention to that same weapon AP and non-AP ammo variations have *same* AC mod (5mm, .44 Magnum, 10mm AP, Flamethrower fuel, HN Needler cartridge) then it becomes clear that designers actually used *ammo* AC mod to adjust corresponding *weapon* accuracy. Conclusion: it is safe and much clearer to exclude AC mod from game mechanics.
+
+Optionally, weapons using ammo with originally high negative AC mod can be assigned "weapon accurate" perk to compensate for disabling AC mod parameter.
 
