@@ -114,7 +114,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 *Implemented*
 
 | type | name | skill | stats | damage | AP | crit | note | avg dmg (ST=5) | (avg dmg + crit) / AP |
-|----|----|----|----:|----|----:|----:|----:|----|----:|----:|
+|----|----|----:|----|----:|----:|----:|----|----:|----:|
 | k/p | Strong Kick | 40% | AG=4 | +5 | 4 | | | 8 | 2.00 |
 | p/p | Strong Punch | 50% | AG=4 | +3 | 3 | | | 6 | 2.00 |
 | k/s | Hip Kick | 60% | AG=4 | +10 | 4 | | | 13 | 3.25 |
