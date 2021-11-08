@@ -1,18 +1,9 @@
 # 0.1
 
-* `Initial HP = 15 + 3 * EN`
-
-# Initial AP
-
-```
-AP = 8 + max(0, AG - 7)
-```
-
-# Initial AC
-
-```
-AC = 3 * AG
-```
+* Initial HP = `15 + 3 * EN`
+* `Initial AP = 8 + max(0, AG - 7)`
+* `Initial AC = 3 * AG`
+* `
 
 # Melee damage
 
