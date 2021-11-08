@@ -26,6 +26,7 @@ variable ammoPids;
 
 procedure handleCombatTurn;
 procedure modifyAmmoACMod;
+procedure modifyArmor;
 
 procedure start begin
 	if game_loaded then begin
@@ -35,6 +36,9 @@ procedure start begin
 
 		// ammo AC mod
 		call modifyAmmoACMod;
+
+		// armor
+		call modifyArmor;
 
 	end
 end
@@ -72,10 +76,10 @@ procedure modifyAmmoACMod begin
 
 	ndebug("clear all ammo AC mod");
 
-	// cycle through 1000 first pids hopint that is all pids in the game
+	// cycle through pids for ammo
 
 	variable pid;
-	for (pid = 1; pid < 1000; pid++) begin
+	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
 
 		// ammo
 
@@ -94,3 +98,30 @@ procedure modifyAmmoACMod begin
 
 end
 
+procedure modifyArmor begin
+
+	ndebug("armor");
+
+	// cycle through pids for armor
+
+	variable pid;
+	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
+
+		// armor
+
+		if proto_data(pid, it_type) != item_type_armor then
+			continue;
+
+		ndebug(proto_data(pid, it_name));
+		ndebug("\t" + "AC: " + get_proto_data(pid, PROTO_AR_AC));
+		ndebug("\t" + "normal: " + get_proto_data(pid, PROTO_AR_DT_NORMAL) + "/" + get_proto_data(pid, PROTO_AR_DR_NORMAL)  + " laser: " + get_proto_data(pid, PROTO_AR_DT_LASER) + "/" + get_proto_data(pid, PROTO_AR_DR_LASER) + " fire: " + get_proto_data(pid, PROTO_AR_DT_FIRE) + "/" + get_proto_data(pid, PROTO_AR_DR_FIRE) + " plasma: " + get_proto_data(pid, PROTO_AR_DT_PLASMA) + "/" + get_proto_data(pid, PROTO_AR_DR_PLASMA) + " electircal: " + get_proto_data(pid, PROTO_AR_DT_ELECTRICAL) + "/" + get_proto_data(pid, PROTO_AR_DR_ELECTRICAL) + " explosion: " + get_proto_data(pid, PROTO_AR_DT_EXPLOSION) + "/" + get_proto_data(pid, PROTO_AR_DR_EXPLOSION) + " EMP: " + get_proto_data(pid, PROTO_AR_DT_EMP) + "/" + get_proto_data(pid, PROTO_AR_DR_EMP));
+
+//		// clear AC mod
+//
+//		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
+//
+	end
+
+	debug_msg("");
+
+end
