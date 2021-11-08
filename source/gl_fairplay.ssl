@@ -1,0 +1,96 @@
+/*
+
+FairPlay mod for fallout 2 by Bear
+----------------------------------------
+
+Requires sfall 4.3.0.2 +
+
+*/
+
+
+#include "ITEMPID.H"
+#include "sfall.h"
+#include "lib.math.h"
+#include "lib.arrays.h"
+#include "define_lite.h"
+#include "define_extra.h"
+
+#define NAME "gl_fairplay"
+#define ndebug(message) debug_msg(NAME + ": " + message)
+
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
+
+variable dude_carryover_ap = 0;
+variable ammoPids;
+
+procedure handleCombatTurn;
+procedure modifyAmmoACMod;
+
+procedure start begin
+	if game_loaded then begin
+
+		// combat turn
+		register_hook_proc(HOOK_COMBATTURN, handleCombatTurn);
+
+		// ammo AC mod
+		call modifyAmmoACMod;
+
+	end
+end
+
+procedure handleCombatTurn begin
+   variable stage = get_sfall_arg;
+   variable critter = get_sfall_arg;
+
+   // dude
+
+   if (critter != dude_obj) then
+      return;
+
+   // turn begins
+   if (stage == 1) then
+      begin
+         debug_msg("ap=" + get_critter_current_ap(critter));
+         set_critter_current_ap(critter, get_critter_current_ap(critter) + dude_carryover_ap);
+         debug_msg("ap=" + get_critter_current_ap(critter));
+      end
+   // turn ends
+   else if (stage == 0) then
+      begin
+         dude_carryover_ap = MIN(3, get_critter_current_ap(critter));
+      end
+   // combat ends
+   else
+      begin
+         dude_carryover_ap = 0;
+      end
+
+end
+
+procedure modifyAmmoACMod begin
+
+	ndebug("clear all ammo AC mod");
+
+	// cycle through 1000 first pids hopint that is all pids in the game
+
+	variable pid;
+	for (pid = 1; pid < 1000; pid++) begin
+
+		// ammo
+
+		if proto_data(pid, it_type) != item_type_ammo then
+			continue;
+
+		ndebug(proto_data(pid, it_name));
+
+		// clear AC mod
+
+		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
+
+	end
+
+	debug_msg("");
+
+end
+
