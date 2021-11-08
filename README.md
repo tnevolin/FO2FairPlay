@@ -27,7 +27,9 @@ Reviving inferior feature requires not only enhancing said feature value but als
 
 sFall: to all its authors and contributors. Making modding much easier!
 
-# Initial HP
+# Modifications
+
+## Initial HP
 
 *Implemented*
 
@@ -37,7 +39,7 @@ HP = 15 + 3 * EN
 
 Strength affecting health is somewhat awkward especially when it does not contribute to HP increase per level later on.
 
-# Initial AP and AC
+## Initial AP and AC
 
 *Implemented*
 
@@ -55,7 +57,7 @@ AC = 3 * AG
 	* Less drugs required to increase AP for higher AG values even if under threshold.
 	* AG now adds more to natural AC. So even lower AG points matter for character defense.
 
-# Strength melee damage bonus
+## Melee damage
 
 *Implemented*
 
@@ -65,7 +67,7 @@ Melee damage = ST
 
 More effect of ST on unarmed/melee damage. In vanilla it was quite unnoticeable.
 
-# Carry weight
+## Carry weight
 
 *Implemented*
 
@@ -77,7 +79,7 @@ Carry weight is a QoL and is not some strategical part of the game. Insufficient
 
 With this formula even ST=1 character can carry some minimal equipment set.
 
-# Rad resitance
+## Rad resitance
 
 *Implemented*
 
@@ -87,7 +89,7 @@ Rad resistance = 4 * EN
 
 Vanilla rad resistance level seems to be completely ignorable. With this update EN gets a little more appeal to player. At least they can now eat more irradiated food for less consequences.
 
-# Tagged skill multiplier
+## Tagged skills
 
 *Implemented*
 
@@ -98,7 +100,7 @@ There are a lot of skills in the game already. Tagged skills grow extremely fast
 
 Of course, it would be better to correct skills themselves and make them work even beyond 100% (or something) but this is a quick and sloppy fix for that. I may review it in future.
 
-# Skill cost
+## Skills advancement
 
 *Implemented*
 
@@ -119,7 +121,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 126% to 300% costs 6 Skill points
 ```
 
-# Skill initial values
+## Skill initial formulas
 
 *Implemented*
 
@@ -148,7 +150,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 | Gambling | 0 + 5 \* LK | |
 | Outdoorsman | 0 + 2 \* EN + 1 \* PE + 2 \* IN | |
 
-# Unarmed attacks
+## Unarmed attacks
 
 *Implemented*
 
@@ -186,7 +188,7 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 Streamlined unarmed attacks to reduce table consulting during the game and make it more intuitive and easy to chose options. Now player naturally uses faster punches agains unarmored targets for maximized damage / AP, switch to kicks against more armored ones, and then to top level secondary attacks for higher damage and armor piercing. Also higher level punches provide hefty critical bonus at expense of sheer damage if player wants to rely on aimed criticals or just for increased fun.
 
-# AP carryover
+## AP carryover
 
 *Implemented*
 
@@ -194,34 +196,34 @@ AP pool is relatively low comparing to weapon attack AP requirements. That cause
 
 This mod allows carrying up to 3 skipped APs over to next round. This way modifying AP pool by small amount like plus/minus 1 AP results in smooth and direct addition to mobility and firepower. The above "7 AP for 4 AP spear thrust" example now grants one additional attack every 3 out of 4 rounds as it should. No more weapon tables consulting - more pure gaming!
 
-# Book affected skills
+## Book affected skills
 
 *NOT Implemented*
 
 Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.
 
-## Potential solutions
+### Potential solutions
 
 * Introduce books for each skill or for most important skills, at least. Big Guns and Energy Weapons are few examples. Tough to implement as new books need to be distributed in the world.
 * Let existing books contribute to multiple skills either at the same time or to one of them by choice either random or conditional (to the least developed, for example).
 
-# Book SP effect
+## Book SP effect
 
 *NOT Implemented*
 
 It would be nice to exclude any book related exploits and to have book affect skill beyond 100% maybe at diminished effect.
 
-## Potential solutions
+### Potential solutions
 
 * Book contributes an equivalent of 6 SP spent on target skill rounded down. The remainder of unspent SP goes to generic SP pool.
 * Comprehension adds 50% of SP equivalent as advertised.
 
-## Effect
+### Effect
 
 * Eliminates book exploit as they are now awarding SP and not skill increase directly.
 * Book continues contributing to skill beyond 100% albeit slower. Thus Comprehension perk is not a complete waste now.
 
-# IN effect on Skill rate
+## IN effect on Skill rate
 
 *NOT Implemented*
 
@@ -231,17 +233,17 @@ Reduce IN effect on SP rate making it still desirable but not absolute must as s
 Skill rate = 10 + 1 * IN
 ```
 
-# CH effect on combat
+## CH effect on combat
 
 *NOT Implemented*
 
 FO2 ties party size to CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership/spirit or sort?).
 
-## Potential solutions
+### Potential solutions
 
 * `Friendly critters DR bonus (including dude) = -20% + 4% x CH`
 
-# Ammo AC mod
+## Ammo AC mod
 
 *Implemented*
 
@@ -249,7 +251,7 @@ I agree with FO2Tweaks Damage mod author that ammo parameters are pulled out of 
 
 * All ammo AC mod is set to zero.
 
-# AC, DT, DR simplification
+## AC, DT, DR simplification
 
 *NOT Implemented*
 
@@ -259,15 +261,15 @@ Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgf
 
 I would like to continue this path giving simple meaning to different game parameters allowing players to estimate their corresponding effect without use of item parameter tables and heavy formulas.
 
-## Proposed approach
+### Proposed approach
 
-### Accuracy and AC
+#### Accuracy and AC
 
 Accuracy is an ability to hit the target. AC is a corresponding counter for it: an ability to disrupt opponent's aiming and worsen their accuracy. Accuracy grows with the skill advancement as game progresses. So should the armor AC to play natural counter and restrict accuracy from skyroketing beyond 200% beyond which skill investment is useless. To put it differently, player invests into combat skill to overcome evergrowing opponents' AC.
 
 With that in mind armor AC should grow proportionally to its percieved "strength" but should not go higher than say 20%-30%. Vanilla does a pretty good job on that except some types of leather armor somehow are more AC protective than metal armor. That probably should be corrected.
 
-### Armor DT and DR
+#### Armor DT and DR
 
 I agree with FO2Tweaks Damage mod that these parameters are completely redundant. Granted they work different ways but nobody largely care. Better armor should provide better protection on average, that's all. Luckily, the same FO2Tweaks Damage mod made ammo DR mod affecting both DT and DR synchronized way. So either of them can be easily discarded. From one hand, DR seems like an armor natural *impact stopping* property nullifying damage below certain threshold. From another, it would be notiriously difficult to balance against quite variative enemy damage range. This is especially risky in combination with weapon mods introducing weapons with new damage ranges. DR in its turn is just a self explanatory number of proportional damage reduction working well with any weapon damage range.
 
