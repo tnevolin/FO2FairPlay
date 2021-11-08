@@ -21,7 +21,7 @@ Requires sfall 4.3.0.2 +
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
 
-variable dude_carryover_ap = 0;
+variable pcCarryoverAP = 0;
 variable ammoPids;
 
 procedure handleCombatTurn;
@@ -52,18 +52,18 @@ procedure handleCombatTurn begin
    if (stage == 1) then
       begin
          debug_msg("ap=" + get_critter_current_ap(critter));
-         set_critter_current_ap(critter, get_critter_current_ap(critter) + dude_carryover_ap);
+         set_critter_current_ap(critter, get_critter_current_ap(critter) + pcCarryoverAP);
          debug_msg("ap=" + get_critter_current_ap(critter));
       end
    // turn ends
    else if (stage == 0) then
       begin
-         dude_carryover_ap = MIN(3, get_critter_current_ap(critter));
+         pcCarryoverAP = MIN(3, get_critter_current_ap(critter));
       end
    // combat ends
    else
       begin
-         dude_carryover_ap = 0;
+         pcCarryoverAP = 0;
       end
 
 end
