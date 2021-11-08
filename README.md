@@ -8,6 +8,14 @@ Fallout is advertised as an extremely flexible game where any possible build or 
 
 Reviving inferior feature requires not only enhancing said feature value but also toning down any superior features (and exploits) for fairer options distribution among them.
 
+## Goal summary
+
+* All builds/items/actions/features are usable and playable without major suffering.
+* Less number of game lore unrelated exploits.
+* More intuitive items/actions/features usage without consulting game mechanics internals.
+* Less clutter and micromanagement distracting player from the story.
+* Maintain steady game difficulty progression to keep player engaged from beginning to the end.
+
 ## Inferior/superior features and exploits examples
 
 * FO1 Charisma is a completely dump stat no one recommend to even have.
