@@ -27,6 +27,7 @@ variable ammoPids;
 procedure handleCombatTurn;
 procedure modifyAmmoACMod;
 procedure modifyArmor;
+procedure handleUseObject;
 
 procedure start begin
 	if game_loaded then begin
@@ -39,6 +40,12 @@ procedure start begin
 
 		// armor
 		call modifyArmor;
+
+		// SP rate
+		mod_skill_points_per_level(10 - get_pc_base_stat(STAT_iq));
+
+		// books
+		register_hook_proc(HOOK_USEOBJ, handleUseObject);
 
 	end
 end
@@ -125,3 +132,30 @@ procedure modifyArmor begin
 	debug_msg("");
 
 end
+
+procedure handleUseObject begin
+
+	debug_msg("handleUseObject");
+
+	variable
+		user = get_sfall_arg,
+		object = get_sfall_arg
+	;
+
+	// default behavior
+
+	set_sfall_return(-1);
+
+	// dude uses book
+
+	if (not (user == dude_obj and obj_item_subtype(object) == item_type_misc_item)) then
+		return;
+
+	ndebug(obj_type(object));
+
+	// book
+
+	set_sfall_return(1);
+
+end
+

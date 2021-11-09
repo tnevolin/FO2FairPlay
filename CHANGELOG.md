@@ -26,5 +26,10 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 	* Secondary attacks take more time but more damaging, and have higher criticals comparing to primary ones.
 	* High end unarmed attacks are comparable to mega power fist.
 * Some amount of APs can be carried over to next round.
-* All Ammo AC mod reduced to zero.
+* All ammo AC mod values are set to zero.
+
+# 0.2
+
+* Skill rate = `15 + 1 * IN`
+* All armor DT values are set to zero.
 

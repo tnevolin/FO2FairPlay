@@ -27,11 +27,9 @@ Reviving inferior feature requires not only enhancing said feature value but als
 
 sFall: to all its authors and contributors. Making modding much easier!
 
-# Modifications
+# Implemented modifications
 
 ## Initial HP
-
-*Implemented*
 
 ```
 HP = 15 + 3 * EN
@@ -40,8 +38,6 @@ HP = 15 + 3 * EN
 Strength affecting health is somewhat awkward especially when it does not contribute to HP increase per level later on.
 
 ## Initial AP and AC
-
-*Implemented*
 
 ```
 AP = 8 + max(0, AG - 7)
@@ -59,8 +55,6 @@ AC = 3 * AG
 
 ## Melee damage
 
-*Implemented*
-
 ```
 Melee damage = ST
 ```
@@ -68,8 +62,6 @@ Melee damage = ST
 More effect of ST on unarmed/melee damage. In vanilla it was quite unnoticeable.
 
 ## Carry weight
-
-*Implemented*
 
 ```
 Carry weight = 75 + 25 * ST
@@ -81,8 +73,6 @@ With this formula even ST=1 character can carry some minimal equipment set.
 
 ## Rad resitance
 
-*Implemented*
-
 ```
 Rad resistance = 4 * EN
 ```
@@ -90,8 +80,6 @@ Rad resistance = 4 * EN
 Vanilla rad resistance level seems to be completely ignorable. With this update EN gets a little more appeal to player. At least they can now eat more irradiated food for less consequences.
 
 ## Tagged skills
-
-*Implemented*
 
 * Tagged skill (both initial and Tag! one) receives +20 bonus.
 * Tagged skill does not grow twice as fast.
@@ -101,8 +89,6 @@ There are a lot of skills in the game already. Tagged skills grow extremely fast
 Of course, it would be better to correct skills themselves and make them work even beyond 100% (or something) but this is a quick and sloppy fix for that. I may review it in future.
 
 ## Skills advancement
-
-*Implemented*
 
 Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish every point and be mindful of their character specialization and not to become jack-of-all-trades.
 
@@ -122,8 +108,6 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 ```
 
 ## Skill initial formulas
-
-*Implemented*
 
 * Combat skills base is about same for all of them. No more Small Guns preference.
 * Combat skills depends on various more or less lore related stats.
@@ -151,8 +135,6 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 | Outdoorsman | 0 + 2 \* EN + 1 \* PE + 2 \* IN | |
 
 ## Unarmed attacks
-
-*Implemented*
 
 * skill: required skill
 * stats: required stats
@@ -190,11 +172,34 @@ Streamlined unarmed attacks to reduce table consulting during the game and make 
 
 ## AP carryover
 
-*Implemented*
-
 AP pool is relatively low comparing to weapon attack AP requirements. That causes an immense frustration when AP pool is not a direct multiple of a weapon AP requirements resulting in significant AP waste. Example: 7 AP allows just one spear thrust with 3 AP wasted. Players are constantly preoccupied with pixel perfect matching their AP pool and weapon requirements. This is incredibly stupid and big time immersion killer.
 
 This mod allows carrying up to 3 skipped APs over to next round. This way modifying AP pool by small amount like plus/minus 1 AP results in smooth and direct addition to mobility and firepower. The above "7 AP for 4 AP spear thrust" example now grants one additional attack every 3 out of 4 rounds as it should. No more weapon tables consulting - more pure gaming!
+
+## IN effect on Skill rate
+
+```
+Skill rate = 15 + 1 * IN
+```
+
+* Minimal skill rate is raised from 5 to 15. Low intellect character is not lacking skills severly anymore.
+* Intellect is still a hefty addition to still rate.
+
+## Ammo AC mod
+
+I agree with FO2Tweaks Damage mod author that ammo parameters are pulled out of the ass. Especially AC mod one. It is easy to imagine ammo type affects armor penetration and delivered damage but affecting chance to hit??? It does not make much sense in vanilla anyway. Most ammo types have zero or negligible AC mod. If you also pay attention to that same weapon AP and non-AP ammo variations have *same* AC mod (5mm, .44 Magnum, 10mm AP, Flamethrower fuel, HN Needler cartridge) then it becomes clear that designers actually used *ammo* AC mod to adjust corresponding *weapon* accuracy. Conclusion: it is safe and cleaner to exclude AC mod from game mechanics.
+
+* All ammo AC mod values are set to zero.
+
+## Armor DT
+
+I agree with FO2Tweaks Damage mod author that armor DT/DR parameters are completely redundant. Not from the realism perspective but from game mechannics and usability one. It is just impossible to assign them different values and expect player to understand whether **10/20** armor is better than **0/40** one just by looking at number. Granted they work different ways but nobody largely care. Better armor should provide better protection on average, that is what most player need to know. Luckily, the same FO2Tweaks Damage mod made ammo DR mod affecting both DT and DR synchronized way. So either of them can be easily discarded. From one hand, DR seems like an armor natural *impact stopping* property nullifying damage below certain threshold. From another, it would be notiriously difficult to balance against quite variative enemy damage range. This is especially risky in combination with weapon mods introducing weapons with new damage ranges. DR in its turn is just a self explanatory number of proportional damage reduction working well with any weapon damage range.
+
+Taking that FO designers paid closer attention to armor DR and was quite conservative about DT, I would keep armor DT out of scope leaving only DR as game wide defensive parameter affected by armor, derived stats, drugs, etc.
+
+* All armor DT values are set to zero.
+
+# Future ideas
 
 ## Book affected skills
 
@@ -223,16 +228,6 @@ It would be nice to exclude any book related exploits and to have book affect sk
 * Eliminates book exploit as they are now awarding SP and not skill increase directly.
 * Book continues contributing to skill beyond 100% albeit slower. Thus Comprehension perk is not a complete waste now.
 
-## IN effect on Skill rate
-
-*NOT Implemented*
-
-Reduce IN effect on SP rate making it still desirable but not absolute must as skills could be raised by books as well.
-
-```
-Skill rate = 10 + 1 * IN
-```
-
 ## CH effect on combat
 
 *NOT Implemented*
@@ -242,14 +237,6 @@ FO2 ties party size to CH making it not absolutely worthless. I feel it is still
 ### Potential solutions
 
 * `Friendly critters DR bonus (including dude) = -20% + 4% x CH`
-
-## Ammo AC mod
-
-*Implemented*
-
-I agree with FO2Tweaks Damage mod author that ammo parameters are pulled out of the ass. Especially AC mod one. It is easy to imagine ammo type affects armor penetration and delivered damage but affecting chance to hit??? It does not make much sense in vanilla anyway. Most ammo types have zero or negligible AC mod. If you also pay attention to that same weapon AP and non-AP ammo variations have *same* AC mod (5mm, .44 Magnum, 10mm AP, Flamethrower fuel, HN Needler cartridge) then it becomes clear that designers actually used *ammo* AC mod to adjust corresponding *weapon* accuracy. Conclusion: it is safe and cleaner to exclude AC mod from game mechanics.
-
-* All ammo AC mod is set to zero.
 
 ## AC, DT, DR simplification
 
@@ -268,10 +255,4 @@ I would like to continue this path giving simple meaning to different game param
 Accuracy is an ability to hit the target. AC is a corresponding counter for it: an ability to disrupt opponent's aiming and worsen their accuracy. Accuracy grows with the skill advancement as game progresses. So should the armor AC to play natural counter and restrict accuracy from skyroketing beyond 200% beyond which skill investment is useless. To put it differently, player invests into combat skill to overcome evergrowing opponents' AC.
 
 With that in mind armor AC should grow proportionally to its percieved "strength" but should not go higher than say 20%-30%. Vanilla does a pretty good job on that except some types of leather armor somehow are more AC protective than metal armor. That probably should be corrected.
-
-#### Armor DT and DR
-
-I agree with FO2Tweaks Damage mod that these parameters are completely redundant. Granted they work different ways but nobody largely care. Better armor should provide better protection on average, that's all. Luckily, the same FO2Tweaks Damage mod made ammo DR mod affecting both DT and DR synchronized way. So either of them can be easily discarded. From one hand, DR seems like an armor natural *impact stopping* property nullifying damage below certain threshold. From another, it would be notiriously difficult to balance against quite variative enemy damage range. This is especially risky in combination with weapon mods introducing weapons with new damage ranges. DR in its turn is just a self explanatory number of proportional damage reduction working well with any weapon damage range.
-
-Taking that FO designers paid closer attention to armor DR and was quite conservative about DT, I would keep armor DT out of scope leaving only DR as game wide defensive parameter affected by armor, derived stats, drugs, etc.
 
