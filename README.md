@@ -207,6 +207,29 @@ Taking that FO designers paid closer attention to armor DR and was quite conserv
 
 Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.
 
+Here are proposed cross pollination between books and skills. I matched them as loosely as possible to increase possible use across many skills. Two additional EcCo books are also used. Speech benefits from any book as the more you read the more topic you can cover and amaze listeners. Still the distribution is not absolutely symmetric so some skills may benefit more from books throughout the game but it is not that bad. It is still better coverage than in vanilla. Player compensates not covered skills with regular SP distribution.
+
+| skill | book |
+|----|----|
+| Small Guns | Guns and Bullets |
+| Big Guns | Guns and Bullets |
+| Energy Weapons | Guns and Bullets, Deans Electronics |
+| Unarmed | First Aid Book, Scout Handbook |
+| Melee Weapons | First Aid Book, Scout Handbook |
+| Throwing | Traps and Explosives |
+| First aid | First Aid Book, Guns and Bullets |
+| Doctor | First Aid Book, Big Book of Science |
+| Sneak | Scout Handbook |
+| Lockpick | Deans Electronics, Scout Handbook |
+| Steal | Scout Handbook, Capital |
+| Traps | Traps and Explosives |
+| Science | Big Book of Science |
+| Repair | Deans Electronics |
+| Speech | any book ! |
+| Barter | Capital |
+| Gambling | Big Book of Science |
+| Outdoorsman | Scout Handbook |
+
 ### Potential solutions
 
 * Introduce books for each skill or for most important skills, at least. Big Guns and Energy Weapons are few examples. Tough to implement as new books need to be distributed in the world.

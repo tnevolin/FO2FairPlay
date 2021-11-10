@@ -1,3 +1,8 @@
+# Requirements
+
+* sFall 4.3.2.
+* EcCo for complete book functionality.
+
 # Installation
 
 1. Copy data and mods folders to Fallout root directory.

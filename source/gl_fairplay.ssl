@@ -26,7 +26,7 @@ variable ammoPids;
 
 procedure handleCombatTurn;
 procedure modifyAmmoACMod;
-procedure modifyArmor;
+procedure modifyArmorDT;
 procedure handleUseObject;
 
 procedure start begin
@@ -39,7 +39,7 @@ procedure start begin
 		call modifyAmmoACMod;
 
 		// armor
-		call modifyArmor;
+		call modifyArmorDT;
 
 		// SP rate
 		mod_skill_points_per_level(10 - get_pc_base_stat(STAT_iq));
@@ -81,7 +81,7 @@ end
 
 procedure modifyAmmoACMod begin
 
-	ndebug("clear all ammo AC mod");
+	ndebug("Ammo: set AC mod = 0");
 
 	// cycle through pids for ammo
 
@@ -105,9 +105,9 @@ procedure modifyAmmoACMod begin
 
 end
 
-procedure modifyArmor begin
+procedure modifyArmorDT begin
 
-	ndebug("armor");
+	ndebug("Armor: set DT = 0");
 
 	// cycle through pids for armor
 
@@ -119,14 +119,18 @@ procedure modifyArmor begin
 		if proto_data(pid, it_type) != item_type_armor then
 			continue;
 
-		ndebug(proto_data(pid, it_name));
-		ndebug("\t" + "AC: " + get_proto_data(pid, PROTO_AR_AC));
-		ndebug("\t" + "normal: " + get_proto_data(pid, PROTO_AR_DT_NORMAL) + "/" + get_proto_data(pid, PROTO_AR_DR_NORMAL)  + " laser: " + get_proto_data(pid, PROTO_AR_DT_LASER) + "/" + get_proto_data(pid, PROTO_AR_DR_LASER) + " fire: " + get_proto_data(pid, PROTO_AR_DT_FIRE) + "/" + get_proto_data(pid, PROTO_AR_DR_FIRE) + " plasma: " + get_proto_data(pid, PROTO_AR_DT_PLASMA) + "/" + get_proto_data(pid, PROTO_AR_DR_PLASMA) + " electircal: " + get_proto_data(pid, PROTO_AR_DT_ELECTRICAL) + "/" + get_proto_data(pid, PROTO_AR_DR_ELECTRICAL) + " explosion: " + get_proto_data(pid, PROTO_AR_DT_EXPLOSION) + "/" + get_proto_data(pid, PROTO_AR_DR_EXPLOSION) + " EMP: " + get_proto_data(pid, PROTO_AR_DT_EMP) + "/" + get_proto_data(pid, PROTO_AR_DR_EMP));
+		// clear DT
 
-//		// clear AC mod
-//
-//		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
-//
+		set_proto_data(pid, PROTO_AR_DT_NORMAL, 0);
+		set_proto_data(pid, PROTO_AR_DT_LASER, 0);
+		set_proto_data(pid, PROTO_AR_DT_FIRE, 0);
+		set_proto_data(pid, PROTO_AR_DT_PLASMA, 0);
+		set_proto_data(pid, PROTO_AR_DT_ELECTRICAL, 0);
+		set_proto_data(pid, PROTO_AR_DT_EXPLOSION, 0);
+		set_proto_data(pid, PROTO_AR_DT_EMP, 0);
+
+		ndebug(proto_data(pid, it_name));
+
 	end
 
 	debug_msg("");
@@ -135,27 +139,151 @@ end
 
 procedure handleUseObject begin
 
-	debug_msg("handleUseObject");
+	ndebug("handleUseObject");
 
-	variable
-		user = get_sfall_arg,
-		object = get_sfall_arg
-	;
-
-	// default behavior
-
-	set_sfall_return(-1);
+	variable user = get_sfall_arg;
+	variable object = get_sfall_arg;
 
 	// dude uses book
 
-	if (not (user == dude_obj and obj_item_subtype(object) == item_type_misc_item)) then
+	if (not (user == dude_obj and obj_type(object) == OBJ_TYPE_ITEM and obj_item_subtype(object) == item_type_misc_item)) then
 		return;
 
-	ndebug(obj_type(object));
+	ndebug("book: " + obj_name(object));
 
-	// book
+	// get object pid
+
+	variable pid = obj_pid(object);
+
+	// populate book variables
+
+	variable bookSkillMessages = temp_array_map;
+
+	switch (pid) begin
+		case PID_BIG_BOOK_OF_SCIENCE :
+			begin
+				bookSkillMessages[SKILL_SCIENCE] = mstr_proto(802);
+				bookSkillMessages[SKILL_DOCTOR] = "You review scientific breakthrough in medicine.";
+				bookSkillMessages[SKILL_GAMBLING] = "You memorize gambling algorithm.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You pick buzzwords to use in conversation.";
+			end
+		case PID_DEANS_ELECTRONICS :
+			begin
+				bookSkillMessages[SKILL_REPAIR] = mstr_proto(803);
+				bookSkillMessages[SKILL_ENERGY_WEAPONS] = "You copy energy weapon circuits schematics.";
+				bookSkillMessages[SKILL_LOCKPICK] = "You review electronic lock bypass method.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You pick buzzwords to use in conversation.";
+			end
+		case PID_FIRST_AID_BOOK :
+			begin
+				bookSkillMessages[SKILL_FIRST_AID] = mstr_proto(804);
+				bookSkillMessages[SKILL_UNARMED_COMBAT] = "You learn stamina strengthening exercise.";
+				bookSkillMessages[SKILL_MELEE] = "You study vulnerable body spots.";
+				bookSkillMessages[SKILL_DOCTOR] = "You refresh your basic medical training skills.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You pick buzzwords to use in conversation.";
+			end
+		case PID_SCOUT_HANDBOOK :
+			begin
+				bookSkillMessages[SKILL_OUTDOORSMAN] = mstr_proto(806);
+				bookSkillMessages[SKILL_UNARMED_COMBAT] = "You copy body building recipie.";
+				bookSkillMessages[SKILL_MELEE] = "You learn few streat fight dirty tricks.";
+				bookSkillMessages[SKILL_SNEAK] = "You refine you camouflage skill.";
+				bookSkillMessages[SKILL_LOCKPICK] = "You practice picking crude mechanical locks.";
+				bookSkillMessages[SKILL_STEAL] = "You learn tactical stealing.";
+			end
+		case PID_GUNS_AND_BULLETS :
+			begin
+				bookSkillMessages[SKILL_SMALL_GUNS] = mstr_proto(805);
+				bookSkillMessages[SKILL_BIG_GUNS] = mstr_proto(805);
+				bookSkillMessages[SKILL_ENERGY_WEAPONS] = mstr_proto(805);
+				bookSkillMessages[SKILL_FIRST_AID] = "You study bullet wounds first aid.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You enrich your vocabulary with gun fight terms.";
+			end
+		case 635 /* Traps and Explosives */ :
+			begin
+				bookSkillMessages[SKILL_TRAPS] = mstr_proto(807);
+				bookSkillMessages[SKILL_THROWING] = "You learn better grenades and explosives handling.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You enrich your vocabulary with trapping terms.";
+			end
+		case 636 /* Capital */ :
+			begin
+				bookSkillMessages[SKILL_BARTER] = mstr_proto(808);
+				bookSkillMessages[SKILL_STEAL] = "You learn how to steal without breaking the law.";
+				bookSkillMessages[SKILL_CONVERSANT] = "You enrich your vocabulary with economics terms.";
+			end
+		default :
+			return;
+	end
+
+	// select target skill
+
+	variable selectedSkill = -1, selectedSkillLevel;
+	variable skill, message;
+	foreach (skill : message in bookSkillMessages)
+		begin
+			ndebug(skill);
+			variable skillLevel = get_critter_skill_points(dude_obj, skill);
+			if (selectedSkill == -1 or skillLevel < selectedSkillLevel) then
+				begin
+					selectedSkill = skill;
+					selectedSkillLevel = skillLevel;
+				end
+			ndebug(selectedSkill);
+			ndebug(selectedSkillLevel);
+		end
+
+	// selected skill not found
+
+	if (selectedSkill == -1) then
+		return;
+
+	// add to skill
+
+	ndebug("skill: " + mstr_skill(100 + selectedSkill));
+
+	// get additional skill points
+
+	variable initalAdditionalSkillLevel = get_critter_skill_points(dude_obj, selectedSkill);
+	variable additionalSkillLevel = initalAdditionalSkillLevel;
+
+	ndebug("additionalSkillLevel (before): " + additionalSkillLevel);
+
+	// compute skill progression
+
+	variable remainedBookAvailableSkillPoints = 6;
+
+	while (true) do
+		begin
+
+			variable skillLevelAdvancementCost = min(6, additionalSkillLevel / 25 + 1);
+
+			ndebug(additionalSkillLevel);
+			ndebug(skillLevelAdvancementCost);
+			ndebug(remainedBookAvailableSkillPoints);
+			if (remainedBookAvailableSkillPoints >= skillLevelAdvancementCost) then
+				begin
+					additionalSkillLevel++;
+					remainedBookAvailableSkillPoints -= skillLevelAdvancementCost;
+				end
+			else
+				break;
+
+		end
+
+	set_critter_skill_points(dude_obj, selectedSkill, additionalSkillLevel);
+	set_available_skill_points(get_available_skill_points + remainedBookAvailableSkillPoints);
+
+	ndebug("additionalSkillLevel (after ): " + additionalSkillLevel);
+	ndebug("remainedBookAvailableSkillPoints: " + remainedBookAvailableSkillPoints);
+
+	// display messages
+
+	display_msg(bookSkillMessages[selectedSkill]);
+	display_msg("[" + mstr_skill(100 + selectedSkill) + " +" + (additionalSkillLevel - initalAdditionalSkillLevel) + "/" + remainedBookAvailableSkillPoints + "]");
 
 	set_sfall_return(1);
+
+	debug_msg("");
 
 end
 
