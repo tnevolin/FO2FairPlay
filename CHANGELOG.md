@@ -32,4 +32,6 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 
 * Skill rate = `15 + 1 * IN`
 * All armor DT values are set to zero.
+* Books can affect other skills.
+* Books contribution to skill is equivalent of spending 6 SP on it.
 

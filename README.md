@@ -199,16 +199,17 @@ Taking that FO designers paid closer attention to armor DR and was quite conserv
 
 * All armor DT values are set to zero.
 
-# Future ideas
-
 ## Book affected skills
-
-*NOT Implemented*
 
 Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.
 
-Here are proposed cross pollination between books and skills. I matched them as loosely as possible to increase possible use across many skills. Two additional EcCo books are also used. Speech benefits from any book as the more you read the more topic you can cover and amaze listeners. Still the distribution is not absolutely symmetric so some skills may benefit more from books throughout the game but it is not that bad. It is still better coverage than in vanilla. Player compensates not covered skills with regular SP distribution.
+Here are proposed cross pollination between books and skills. I matched them as loosely as possible to increase possible use across many skills. Two additional EcCo books are also used. Speech benefits from many book as the more you read the more topic you can cover and amaze listeners. Still the distribution is not absolutely symmetric so some skills may benefit more from books throughout the game but it is not that bad. It is still better coverage than in vanilla. Player compensates not covered skills with regular SP distribution.
 
+* Book may affect other topic related skills besides main one.
+* Book improves the least advanced skill among those related.
+* Book effect is equivalent of spending 6 SP to the selected skill advancement taking cost of each skill level point into account. Anything remained unspent is left in SP pool.
+
+#### Skill book affected skills
 | skill | book |
 |----|----|
 | Small Guns | Guns and Bullets |
@@ -225,15 +226,12 @@ Here are proposed cross pollination between books and skills. I matched them as 
 | Traps | Traps and Explosives |
 | Science | Big Book of Science |
 | Repair | Deans Electronics |
-| Speech | any book ! |
+| Speech | Guns and Bullets, First Aid Book, Deans Electronics, Big Book of Science |
 | Barter | Capital |
 | Gambling | Big Book of Science |
 | Outdoorsman | Scout Handbook |
 
-### Potential solutions
-
-* Introduce books for each skill or for most important skills, at least. Big Guns and Energy Weapons are few examples. Tough to implement as new books need to be distributed in the world.
-* Let existing books contribute to multiple skills either at the same time or to one of them by choice either random or conditional (to the least developed, for example).
+# Future ideas
 
 ## Book SP effect
 
