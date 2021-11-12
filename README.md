@@ -29,29 +29,26 @@ sFall: to all its authors and contributors. Making modding much easier!
 
 # Implemented modifications
 
-## Initial HP
+## Base HP
 
 ```
 HP = 15 + 3 * EN
 ```
 
-Strength affecting health is somewhat awkward especially when it does not contribute to HP increase per level later on.
+* Strength affecting health is somewhat awkward especially when it does not contribute to HP increase per level later on.
 
-## Initial AP and AC
+## Base AP and AC
 
 ```
-AP = 8 + max(0, AG - 7)
-AC = 3 * AG
+AP = 7 + AG / 4 (fractional AP are accumulated over combat rounds)
+AC = 2 * AG
 ```
 
-* Base AP is now sufficient to perform any action and making player moderately combat mobile.
-* Lowering AG below AP contribution threshold does not cripple character permitting viable non AG builds.
-* High AG / high AP build is still possible and is no worse than in vanilla.
-* No more stupid halves AG to AP dependency forcing players unnaturally adjust exact AG value. Ugh.
-* Drugs and other AG modifying effects have direct predictable impact on AP.
-* Every AG point below AP contribution threshold is still quite useful for two reasons:
-	* Less drugs required to increase AP for higher AG values even if under threshold.
-	* AG now adds more to natural AC. So even lower AG points matter for character defense.
+* Base AP is now sufficient to perform any action and making even lowest AG player moderately combat mobile.
+* Every AG point matters. No more lost AP fractions and stupid fiddling with even values. Ugh.
+* AG is now brings only 1/4 AP making direct AP effects (drug, perks) more valuable in this regards.
+* AG now influences natural AC making it more defense related and less attack rate related.
+* Taking AG increasing drugs now makes more defensive sense.
 
 ## Melee damage
 

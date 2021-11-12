@@ -21,10 +21,13 @@ Requires sfall 4.3.0.2 +
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
 
-variable pcCarryoverAP = 0;
+variable fractionalAP = 0.0;
+variable accumulatedFractionalAP = 0.0;
+variable carryoverAP = 0;
 variable ammoPids;
 
 procedure handleCombatTurn;
+procedure setFractionalAP;
 procedure modifyAmmoACMod;
 procedure modifyArmorDT;
 procedure handleUseObject;
@@ -32,50 +35,125 @@ procedure handleUseObject;
 procedure start begin
 	if game_loaded then begin
 
-		// combat turn
+		// hook combat turn
+
 		register_hook_proc(HOOK_COMBATTURN, handleCombatTurn);
 
+		// fractional AP
+
+		call setFractionalAP();
+
 		// ammo AC mod
+
 		call modifyAmmoACMod;
 
 		// armor
+
 		call modifyArmorDT;
 
 		// SP rate
+
 		mod_skill_points_per_level(10 - get_pc_base_stat(STAT_iq));
 
 		// books
+
 		register_hook_proc(HOOK_USEOBJ, handleUseObject);
+
+		ndebug("stats");
+		ndebug(get_critter_base_stat(dude_obj, STAT_max_hp));
+		ndebug(get_critter_extra_stat(dude_obj, STAT_max_hp));
+		ndebug(get_critter_stat(dude_obj, STAT_max_hp));
 
 	end
 end
 
 procedure handleCombatTurn begin
-   variable stage = get_sfall_arg;
-   variable critter = get_sfall_arg;
+	variable stage = get_sfall_arg;
+	variable critter = get_sfall_arg;
 
-   // dude
+	// dude
 
-   if (critter != dude_obj) then
-      return;
+	if (critter != dude_obj) then
+		return;
 
-   // turn begins
-   if (stage == 1) then
-      begin
-         debug_msg("ap=" + get_critter_current_ap(critter));
-         set_critter_current_ap(critter, get_critter_current_ap(critter) + pcCarryoverAP);
-         debug_msg("ap=" + get_critter_current_ap(critter));
-      end
-   // turn ends
-   else if (stage == 0) then
-      begin
-         pcCarryoverAP = MIN(3, get_critter_current_ap(critter));
-      end
-   // combat ends
-   else
-      begin
-         pcCarryoverAP = 0;
-      end
+	// turn begins
+
+	if (stage == 1) then
+		begin
+
+			// add fractionalAP
+
+			accumulatedFractionalAP += fractionalAP;
+			variable wholeAccumulatedFractionalAP = floor(accumulatedFractionalAP);
+			accumulatedFractionalAP -= wholeAccumulatedFractionalAP;
+
+			set_critter_current_ap(critter, get_critter_current_ap(critter) + wholeAccumulatedFractionalAP);
+
+			// add carryoverAP
+
+			set_critter_current_ap(critter, get_critter_current_ap(critter) + carryoverAP);
+
+		end
+
+	// turn ends
+
+	else if (stage == 0) then
+		begin
+
+			// set carryoverAP for next round
+
+			carryoverAP = MIN(3, get_critter_current_ap(critter));
+
+		end
+
+	// combat ends
+
+	else
+		begin
+
+			// reset fractionalAP
+
+			fractionalAP = 0.0;
+
+			// reset carryoverAP
+
+			carryoverAP = 0;
+
+		end
+
+end
+
+procedure setFractionalAP
+begin
+
+	ndebug("setFractionalAP");
+
+	variable derivedStatsIniFile = get_ini_string("ddraw.ini|Misc|DerivedStats");
+	if (strlen(derivedStatsIniFile) == 0) then
+		return;
+
+	variable baseAPMin = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "min"));
+	variable baseAPbase = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "base"));
+
+	variable product = 0.0;
+
+	variable stat;
+	for (stat = STAT_st; stat <= STAT_lu; stat++)
+	begin
+
+		variable shift = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "shift" + stat));
+		variable multi = atof(get_ini_string(derivedStatsIniFile + "|8|" + "multi" + stat));
+
+		product += (get_critter_stat(dude_obj, stat) + shift) * multi;
+
+	end
+
+	variable value = max(baseAPMin, baseAPBase + product);
+
+	fractionalAP = value - floor(value);
+
+	ndebug("fractionalAP=" + fractionalAP);
+	debug_msg("");
 
 end
 
