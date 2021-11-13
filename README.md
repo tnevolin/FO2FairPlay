@@ -188,7 +188,7 @@ I agree with FO2Tweaks Damage mod author that ammo parameters are pulled out of 
 
 * All ammo AC mod values are set to zero.
 
-## Book affected skills
+## Book skills and effect
 
 Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.
 
@@ -197,6 +197,7 @@ Here are proposed cross pollination between books and skills. I matched them as 
 * Book may affect other topic related skills besides main one.
 * Book improves the least advanced skill among those related.
 * Book effect is equivalent of spending 6 SP to the selected skill advancement taking cost of each skill level point into account. Anything remained unspent is left in SP pool.
+* Comprehension adds 50% of SP equivalent as advertised.
 
 #### Skill book affected skills
 | skill | book |
@@ -222,11 +223,17 @@ Here are proposed cross pollination between books and skills. I matched them as 
 
 # Future ideas
 
-## Book SP effect
+## Weapon ST requirement
 
 *NOT Implemented*
 
-It would be nice to exclude any book related exploits and to have book affect skill beyond 100% maybe at diminished effect.
+Weapon power varies greatly. Any better one immediately and completely obsoletes all weaker analogues. It would be fine if obtaining and using stronger weapon require certain character progression but it is not the case in open game. It is relatively easy to obtain high end pieces just by buying them in stores. That breaks the need for character progression and ruins game RPG system. Weapon ST requirement is a nice feature that potentially can demand more ST or skill level before player can use more powerful item maintaining the importance of experience and leveling until the end of the game. Unfortunately, it is very forgiving. The minigun 7 ST (highest existing requirement) is not that dificult to achieve either initially or by drugs. Raising these requirements for stronger weapons makes them much less accurate until player actually works their way to handle them better in a matter of increasing ST or weapon skill.
+
+### Weapon min ST modification
+
+```
+weapon min ST = 3 + [average damage / 5] + [burst size / 5]
+```
 
 ### Potential solutions
 

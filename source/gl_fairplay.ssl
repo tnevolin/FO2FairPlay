@@ -264,15 +264,12 @@ procedure handleUseObject begin
 	variable skill, message;
 	foreach (skill : message in bookSkillMessages)
 		begin
-			ndebug(skill);
 			variable skillLevel = get_critter_skill_points(dude_obj, skill);
 			if (selectedSkill == -1 or skillLevel < selectedSkillLevel) then
 				begin
 					selectedSkill = skill;
 					selectedSkillLevel = skillLevel;
 				end
-			ndebug(selectedSkill);
-			ndebug(selectedSkillLevel);
 		end
 
 	// selected skill not found
@@ -289,20 +286,20 @@ procedure handleUseObject begin
 	variable initalAdditionalSkillLevel = get_critter_skill_points(dude_obj, selectedSkill);
 	variable additionalSkillLevel = initalAdditionalSkillLevel;
 
-	ndebug("additionalSkillLevel (before): " + additionalSkillLevel);
-
 	// compute skill progression
 
 	variable remainedBookAvailableSkillPoints = 6;
+	if (has_trait(TRAIT_PERK, dude_obj, PERK_comprehension_perk)) then
+		begin
+			remainedBookAvailableSkillPoints *= 3;
+			remainedBookAvailableSkillPoints /= 2;
+		end
 
 	while (true) do
 		begin
 
 			variable skillLevelAdvancementCost = min(6, additionalSkillLevel / 25 + 1);
 
-			ndebug(additionalSkillLevel);
-			ndebug(skillLevelAdvancementCost);
-			ndebug(remainedBookAvailableSkillPoints);
 			if (remainedBookAvailableSkillPoints >= skillLevelAdvancementCost) then
 				begin
 					additionalSkillLevel++;
@@ -315,9 +312,6 @@ procedure handleUseObject begin
 
 	set_critter_skill_points(dude_obj, selectedSkill, additionalSkillLevel);
 	set_available_skill_points(get_available_skill_points + remainedBookAvailableSkillPoints);
-
-	ndebug("additionalSkillLevel (after ): " + additionalSkillLevel);
-	ndebug("remainedBookAvailableSkillPoints: " + remainedBookAvailableSkillPoints);
 
 	// display messages
 

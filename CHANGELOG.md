@@ -44,3 +44,7 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 
 * Reverted: All armor DT values are set to zero.
 
+# 0.5
+
+* Accounted for Comprehension in book effect.
+
