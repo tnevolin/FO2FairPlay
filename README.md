@@ -188,14 +188,6 @@ I agree with FO2Tweaks Damage mod author that ammo parameters are pulled out of 
 
 * All ammo AC mod values are set to zero.
 
-## Armor DT
-
-I agree with FO2Tweaks Damage mod author that armor DT/DR parameters are completely redundant. Not from the realism perspective but from game mechannics and usability one. It is just impossible to assign them different values and expect player to understand whether **10/20** armor is better than **0/40** one just by looking at number. Granted they work different ways but nobody largely care. Better armor should provide better protection on average, that is what most player need to know. Luckily, the same FO2Tweaks Damage mod made ammo DR mod affecting both DT and DR synchronized way. So either of them can be easily discarded. From one hand, DR seems like an armor natural *impact stopping* property nullifying damage below certain threshold. From another, it would be notiriously difficult to balance against quite variative enemy damage range. This is especially risky in combination with weapon mods introducing weapons with new damage ranges. DR in its turn is just a self explanatory number of proportional damage reduction working well with any weapon damage range.
-
-Taking that FO designers paid closer attention to armor DR and was quite conservative about DT, I would keep armor DT out of scope leaving only DR as game wide defensive parameter affected by armor, derived stats, drugs, etc.
-
-* All armor DT values are set to zero.
-
 ## Book affected skills
 
 Having just few skills affected by books is kind of skewed view on things. This forces player *NOT* to tag book raisable skills. It would be fairer and probaly funnier too to distribute book effect across all skills.

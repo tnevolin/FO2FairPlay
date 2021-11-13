@@ -29,7 +29,6 @@ variable ammoPids;
 procedure handleCombatTurn;
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
-procedure modifyArmorDT;
 procedure handleUseObject;
 
 procedure start begin
@@ -48,8 +47,6 @@ procedure start begin
 		call modifyAmmoACMod;
 
 		// armor
-
-		call modifyArmorDT;
 
 		// SP rate
 
@@ -176,38 +173,6 @@ procedure modifyAmmoACMod begin
 		// clear AC mod
 
 		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
-
-	end
-
-	debug_msg("");
-
-end
-
-procedure modifyArmorDT begin
-
-	ndebug("Armor: set DT = 0");
-
-	// cycle through pids for armor
-
-	variable pid;
-	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
-
-		// armor
-
-		if proto_data(pid, it_type) != item_type_armor then
-			continue;
-
-		// clear DT
-
-		set_proto_data(pid, PROTO_AR_DT_NORMAL, 0);
-		set_proto_data(pid, PROTO_AR_DT_LASER, 0);
-		set_proto_data(pid, PROTO_AR_DT_FIRE, 0);
-		set_proto_data(pid, PROTO_AR_DT_PLASMA, 0);
-		set_proto_data(pid, PROTO_AR_DT_ELECTRICAL, 0);
-		set_proto_data(pid, PROTO_AR_DT_EXPLOSION, 0);
-		set_proto_data(pid, PROTO_AR_DT_EMP, 0);
-
-		ndebug(proto_data(pid, it_name));
 
 	end
 

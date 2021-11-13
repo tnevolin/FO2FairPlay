@@ -39,3 +39,8 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 
 * `AP = 7 + AG / 4` (fractional AP are accumulated over combat rounds).
 * `AC = 2 * AG`
+
+# 0.4
+
+* Reverted: All armor DT values are set to zero.
+
