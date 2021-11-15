@@ -47,4 +47,6 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 # 0.5
 
 * Accounted for Comprehension in book effect.
+* Updated weapon Min ST formula.
+* Modified weapon display message with corrected Min ST.
 

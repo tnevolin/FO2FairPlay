@@ -18,8 +18,14 @@ Requires sfall 4.3.0.2 +
 #define NAME "gl_fairplay"
 #define ndebug(message) debug_msg(NAME + ": " + message)
 
-#define fo2tweaks_ini "mods\\fo2tweaks.ini"
-#define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
+// constants
+
+#define SKILL_RATE_BASE (15)
+
+#define WEAPON_MINST_DAMAGE_MULTIPLIER (1.00)
+#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.30)
+#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE_MODIFIER (0.30)
+#define WEAPON_MINST_BURST_DIVIDER (8)
 
 variable fractionalAP = 0.0;
 variable accumulatedFractionalAP = 0.0;
@@ -27,16 +33,20 @@ variable carryoverAP = 0;
 variable ammoPids;
 
 procedure handleCombatTurn;
+procedure handleUseObject;
+procedure handleDescriptionObject;
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
-procedure handleUseObject;
+procedure modifyWeaponMinST;
 
 procedure start begin
 	if game_loaded then begin
 
-		// hook combat turn
+		// hooks
 
 		register_hook_proc(HOOK_COMBATTURN, handleCombatTurn);
+		register_hook_proc(HOOK_USEOBJ, handleUseObject);
+		register_hook_proc(HOOK_DESCRIPTIONOBJ, handleDescriptionObject);
 
 		// fractional AP
 
@@ -46,20 +56,13 @@ procedure start begin
 
 		call modifyAmmoACMod;
 
-		// armor
-
 		// SP rate
 
-		mod_skill_points_per_level(10 - get_pc_base_stat(STAT_iq));
+		mod_skill_points_per_level(SKILL_RATE_BASE - get_pc_base_stat(STAT_iq));
 
-		// books
+		// weapon min ST
 
-		register_hook_proc(HOOK_USEOBJ, handleUseObject);
-
-		ndebug("stats");
-		ndebug(get_critter_base_stat(dude_obj, STAT_max_hp));
-		ndebug(get_critter_extra_stat(dude_obj, STAT_max_hp));
-		ndebug(get_critter_stat(dude_obj, STAT_max_hp));
+		call modifyWeaponMinST;
 
 	end
 end
@@ -117,66 +120,6 @@ procedure handleCombatTurn begin
 			carryoverAP = 0;
 
 		end
-
-end
-
-procedure setFractionalAP
-begin
-
-	ndebug("setFractionalAP");
-
-	variable derivedStatsIniFile = get_ini_string("ddraw.ini|Misc|DerivedStats");
-	if (strlen(derivedStatsIniFile) == 0) then
-		return;
-
-	variable baseAPMin = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "min"));
-	variable baseAPbase = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "base"));
-
-	variable product = 0.0;
-
-	variable stat;
-	for (stat = STAT_st; stat <= STAT_lu; stat++)
-	begin
-
-		variable shift = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "shift" + stat));
-		variable multi = atof(get_ini_string(derivedStatsIniFile + "|8|" + "multi" + stat));
-
-		product += (get_critter_stat(dude_obj, stat) + shift) * multi;
-
-	end
-
-	variable value = max(baseAPMin, baseAPBase + product);
-
-	fractionalAP = value - floor(value);
-
-	ndebug("fractionalAP=" + fractionalAP);
-	debug_msg("");
-
-end
-
-procedure modifyAmmoACMod begin
-
-	ndebug("Ammo: set AC mod = 0");
-
-	// cycle through pids for ammo
-
-	variable pid;
-	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
-
-		// ammo
-
-		if proto_data(pid, it_type) != item_type_ammo then
-			continue;
-
-		ndebug(proto_data(pid, it_name));
-
-		// clear AC mod
-
-		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
-
-	end
-
-	debug_msg("");
 
 end
 
@@ -319,6 +262,146 @@ procedure handleUseObject begin
 	display_msg("[" + mstr_skill(100 + selectedSkill) + " +" + (additionalSkillLevel - initalAdditionalSkillLevel) + "/" + remainedBookAvailableSkillPoints + "]");
 
 	set_sfall_return(1);
+
+	// advance time
+
+	game_time_advance(6 * ONE_GAME_HOUR);
+
+	debug_msg("");
+
+end
+
+procedure handleDescriptionObject begin
+
+	variable object = get_sfall_arg;
+
+	// weapon
+
+	if (not (obj_type(object) == OBJ_TYPE_ITEM and obj_item_subtype(object) == item_type_weapon)) then
+		return;
+
+	variable pid = obj_pid(object);
+	variable minST = get_proto_data(pid, PROTO_WP_MIN_ST);
+	variable descriptionMessageId = get_proto_data(pid, PROTO_TEXTID) + 1;
+	variable descriptionMessage = message_str_game(GAME_MSG_PRO_ITEM, descriptionMessageId);
+	variable descriptionMessageSplit = string_split(descriptionMessage, " Min ST:");
+	variable descriptionMessageWithUpdatedMinST = descriptionMessageSplit[0] + " Min ST: " + minST + ".";
+
+	set_sfall_return(get_string_pointer(descriptionMessageWithUpdatedMinST));
+
+end
+
+procedure setFractionalAP
+begin
+
+	ndebug("setFractionalAP");
+
+	variable derivedStatsIniFile = get_ini_string("ddraw.ini|Misc|DerivedStats");
+	if (strlen(derivedStatsIniFile) == 0) then
+		return;
+
+	variable baseAPMin = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "min"));
+	variable baseAPbase = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "base"));
+
+	variable product = 0.0;
+
+	variable stat;
+	for (stat = STAT_st; stat <= STAT_lu; stat++)
+	begin
+
+		variable shift = atoi(get_ini_string(derivedStatsIniFile + "|8|" + "shift" + stat));
+		variable multi = atof(get_ini_string(derivedStatsIniFile + "|8|" + "multi" + stat));
+
+		product += (get_critter_stat(dude_obj, stat) + shift) * multi;
+
+	end
+
+	variable value = max(baseAPMin, baseAPBase + product);
+
+	fractionalAP = value - floor(value);
+
+	ndebug("fractionalAP=" + fractionalAP);
+	debug_msg("");
+
+end
+
+procedure modifyAmmoACMod begin
+
+	ndebug("Ammo: set AC mod = 0");
+
+	// cycle through pids for ammo
+
+	variable pid;
+	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
+
+		// ammo
+
+		if proto_data(pid, it_type) != item_type_ammo then
+			continue;
+
+		ndebug(proto_data(pid, it_name));
+
+		// clear AC mod
+
+		set_proto_data(pid, PROTO_AM_AC_MOD, 0);
+
+	end
+
+	debug_msg("");
+
+end
+
+procedure modifyWeaponMinST begin
+
+	ndebug("modifyWeaponMinST");
+
+	// allow memory modification
+
+	variable pid;
+	for (pid = 1; pid < 2000; pid++)
+	begin
+
+		// weapon
+
+		if (not (proto_data(pid, it_type) == item_type_weapon)) then
+			continue;
+
+		// calculate modifier for grenade
+
+		variable weaponMinSTDamageSqrtMultiplier = WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER;
+		if (get_proto_data(pid, PROTO_WP_ANIM) == 0 and (get_proto_data(pid, PROTO_WP_PROJ_PID) == 83886105 or get_proto_data(pid, PROTO_WP_PROJ_PID) == 83886110)) then
+			weaponMinSTDamageSqrtMultiplier *= WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE_MODIFIER;
+
+		// calculate min ST
+
+		variable name = proto_data(pid, it_name);
+		variable minSTOld = get_proto_data(pid, PROTO_WP_MIN_ST);
+		variable averageDamage = (get_proto_data(pid, PROTO_WP_DMG_MIN) + get_proto_data(pid, PROTO_WP_DMG_MAX)) / 2;
+		variable burst = get_proto_data(pid, PROTO_WP_BURST);
+		variable minST = max(minSTOld, 1 + floor(sqrt(averageDamage * WEAPON_MINST_DAMAGE_MULTIPLIER) * weaponMinSTDamageSqrtMultiplier + burst / WEAPON_MINST_BURST_DIVIDER));
+
+		set_proto_data(pid, PROTO_WP_MIN_ST, minST);
+
+		variable message = name + ":";
+		variable i;
+		for (i = strlen(message); i < 26; i++)
+		begin
+			message += " ";
+		end
+		if (averageDamage < 10) then
+			message += "  ";
+		else if (averageDamage < 100) then
+			message += " ";
+		message += " " + averageDamage;
+		if (burst < 10) then
+			message += " ";
+		message += " " + burst;
+		if (minST < 10) then
+			message += " ";
+		message += " " + minST;
+		debug_msg(message);
+
+	end
 
 	debug_msg("");
 
