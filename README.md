@@ -225,6 +225,12 @@ Here are proposed cross pollination between books and skills. I matched them as 
 
 Weapon power varies greatly. Any better one immediately and completely obsoletes all weaker analogues. It would be fine if obtaining and using stronger weapon require certain character progression but it is not the case in open game. It is relatively easy to obtain high end pieces just by buying them in stores. That breaks the need for character progression and ruins game RPG system. Weapon ST requirement is a nice feature that potentially can demand more ST or skill level before player can use more powerful item maintaining the importance of experience and leveling until the end of the game. Unfortunately, it is very forgiving. The minigun 7 ST (highest existing requirement) is not that dificult to achieve either initially or by drugs. Raising these requirements for stronger weapons makes them much less accurate until player actually works their way to handle them better in a matter of increasing ST or weapon skill.
 
+New formula below recalculates weapon Min ST based on its average damage and burst size. More devastating weapon becomes more difficult to handle. If anyone requires lore explanation for that effect, more powerful weapon produces stronger recoil (with longer burst emphasising that) demanding higher strength just to maintain steady aim.
+
+New Min ST is updated only if it is bigger than old one.
+
+With new formula some extra powerful weapons Min ST goes beyond 10 making it impossible to complensate accuracy loss with ST improvement and giving them inherent accuracy penalty that can be compensated only with skill advancement.
+
 ### New formula
 
 Everything but grenades:
