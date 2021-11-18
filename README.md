@@ -264,7 +264,7 @@ FO introduces "weapon effective range" as the distance at which "range penalty a
 * Skill level is a direct and intuitive indicator of attack accuracy. Easy to compare and choose. No more consulting special tables and formulas needed.
 * PE stretches weapon reach range *compensating* 4% range penalty per 1 PE. It does not *improve* the chance to hit. Still desirable stat for ranged combattant but not absolutely crucial one.
 * Sharpshooter works as advertised.
-* Weapon long/scope range have longer range accuracy bonus but shorter range penalty. They are no longer superior to short ranged ones at all distances and have their niche highlighting weapon specialization.
+* Weapon long/scope range have better longer range accuracy bonus but penalized up close. They are no longer superior to regular (short range) weapons at all distances and have their weapon specialization niche.
 * Weapon long/scope range close targetting distance penalty keeps the same steady -4% per hex fall rate relieving player from frustration from bad positioning and need to count every hex.
 
 # Future ideas
