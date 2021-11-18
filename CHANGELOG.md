@@ -50,3 +50,7 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * Updated weapon Min ST formula.
 * Modified weapon display message with corrected Min ST.
 
+# 0.6.
+
+* Modified ranged accuracy.
+

@@ -229,7 +229,7 @@ New formula below recalculates weapon Min ST based on its average damage and bur
 
 New Min ST is updated only if it is bigger than old one.
 
-With new formula some extra powerful weapons Min ST goes beyond 10 making it impossible to complensate accuracy loss with ST improvement and giving them inherent accuracy penalty that can be compensated only with skill advancement.
+With new formula some extra powerful weapons Min ST goes beyond 10 making it impossible to complensate accuracy loss with ST improvement and giving them inherent accuracy penalty that can be offset only with skill advancement.
 
 ### New formula
 
@@ -244,6 +244,28 @@ Grenades:
 ```
 weapon min ST = 1 + [sqrt(average damage) * 1.3 * 0.3]
 ```
+
+## Ranged accuracy
+
+FO introduces "weapon effective range" as the distance at which "range penalty applies". This effective range is defined as `2 * (PE - 2)`. Weapon long range doubles this effective range and weapon scope range adds another 50% on top of it. This naturally implies that up to this distance range penalty *do not appy*. I.e. weapon maintains steady base accuracy within effective range equal to skill. Makes perfect sense on paper. Sharper senses or specialized long ranged weapon help maintain aim for longer distance. Unfortunately, the implementation is screwed big time. Somehow, range penalty does apply at every distance and effective range is no longer a thing player can percieve. There are other consequences of this bad design. One is that equally ranged accuracy could easily overtake equally skilled close combat one by 64%/128%! Another is weapon scope range dropping differs by 50% for adjacent tiles! The current implementation formula is both game and mind breaking based on amount of "how accuracy is calculated" forum topics out there.
+
+### Proposed fix
+
+* Attack base accuracy is equal to skill.
+* Weapon maintains steady accuracy within its effective range that normally stretches from 0 to PE.
+	* Sharpshooter perk extends far end of effective range by 2.
+	* Long range weapon *shifts* effective range 10 hexes forward making it easier to hit distant targets in exchange for close range penalty.
+	* Scope range weapon *shifts* effective range 15 hexes forward making it even easier to hit distant targets in exchange for more severe close range penalty.
+* Range penalty applies outside of effective range 4% per hex.
+* Other perks and conditions (weapon accurate, darkness) work as before.
+
+### Consequences
+
+* Skill level is a direct and intuitive indicator of attack accuracy. Easy to compare and choose. No more consulting with special tables and formulas needed.
+* PE stretches weapon reach range *compensating* 4% range penalty per 1 PE. It does not *improve* the chance to hit. Still desirable stat for ranged built but not absolutely crusial one.
+* Sharpshooter works as advertised.
+* Weapon long/scope range have longer range accuracy bonus but shorter range penalty. They are no longer superior to short ranged ones at all distances and have their niche highlighting weapon specialization.
+* Weapon long/scope range close targetting distance penalty keeps the same steady -4% per hex fall rate relieving player from frustration from bad positioning and need to count every hex.
 
 # Future ideas
 

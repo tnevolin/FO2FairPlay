@@ -35,9 +35,12 @@ variable ammoPids;
 procedure handleCombatTurn;
 procedure handleUseObject;
 procedure handleDescriptionObject;
+procedure handleToHit;
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
 procedure modifyWeaponMinST;
+
+procedure item_w_subtype(variable weapon, variable attackMode);
 
 procedure start begin
 	if game_loaded then begin
@@ -47,6 +50,7 @@ procedure start begin
 		register_hook_proc(HOOK_COMBATTURN, handleCombatTurn);
 		register_hook_proc(HOOK_USEOBJ, handleUseObject);
 		register_hook_proc(HOOK_DESCRIPTIONOBJ, handleDescriptionObject);
+		register_hook_proc(HOOK_TOHIT, handleToHit);
 
 		// fractional AP
 
@@ -291,6 +295,184 @@ procedure handleDescriptionObject begin
 
 end
 
+procedure handleToHit
+begin
+
+	ndebug("handleToHit");
+
+	variable hitChanceCapped = get_sfall_arg;
+	variable attacker = get_sfall_arg;
+	variable target = get_sfall_arg;
+	variable targettedBodypart = get_sfall_arg;
+	variable sourceTile = get_sfall_arg;
+	variable attackType = get_sfall_arg;
+	variable ranged = get_sfall_arg;
+	variable hitChanceRaw = get_sfall_arg;
+	variable hitChanceCappedModified;
+	variable hitChanceRawModified;
+
+	debug_msg("hitChance (vanilla) = " + hitChanceRaw);
+	if (target != 0) then
+		debug_msg("target AC = " + get_critter_stat(target, STAT_ac));
+
+	// weapon
+
+	variable weaponInventorySpot;
+	if (attacker == dude_obj) then
+		weaponInventorySpot = INVEN_TYPE_LEFT_HAND - active_hand;
+	else
+		weaponInventorySpot = INVEN_TYPE_RIGHT_HAND;
+
+	variable weapon = critter_inven_obj(attacker, weaponInventorySpot);
+
+	if (weapon == 0) then
+		return;
+
+	variable weaponAttackType = item_w_subtype(weapon, attackType);
+	variable rangedAttack = (weaponAttackType == WEAPON_TYPE_GUNS or weaponAttackType == WEAPON_TYPE_THROWN);
+
+	if (not rangedAttack) then
+		return;
+
+	// remove PE, weapon perk, sharpshooter, and distance effects
+
+	variable weaponPid = obj_pid(weapon);
+	variable weaponPerk = get_proto_data(weaponPid, PROTO_WP_PERK);
+	variable dist_mod1 = 0, dist_mod2 = 0;
+	variable statPE = get_critter_stat(attacker, STAT_pe);
+	variable distance;
+	variable distanceModifier = 0;
+	variable distanceModified = 0;
+
+	debug_msg("statPE = " + statPE);
+
+	if (weaponPerk == PERK_weapon_long_range) then
+		begin
+			debug_msg("weapon perk = long range");
+			dist_mod1 = 4;
+		end
+	else if (weaponPerk == PERK_weapon_scope_range) then
+		begin
+			debug_msg("weapon perk = scope range");
+			dist_mod1 = 5;
+			dist_mod2 = 8;
+		end
+	else
+		begin
+			debug_msg("weapon perk = none");
+			dist_mod1 = 2;
+		end
+
+	debug_msg("dist_mod1 = " + dist_mod1);
+	debug_msg("dist_mod2 = " + dist_mod2);
+
+	if (target == 0) then
+		begin
+			distance = 0;
+		end
+	else
+		begin
+			distance = tile_distance(sourceTile, tile_num(target));
+		end
+	distanceModified = distance;
+
+	debug_msg("distance (initial) = " + distanceModified);
+
+	if (distance >= dist_mod2) then
+		begin
+			if (attacker == dude_obj) then
+				begin
+					distanceModifier = - dist_mod1 * (statPE - 2);
+				end
+			else
+				begin
+					distanceModifier = - dist_mod1 * (statPE);
+				end
+		end
+	else
+		begin
+			distanceModifier = dist_mod2;
+		end
+
+	distanceModified += distanceModifier;
+
+	debug_msg("distanceModifier = " + distanceModifier);
+	debug_msg("distance (modified) = " + distanceModified);
+
+	distanceModified = max( - (2 * statPE), distanceModified);
+
+	debug_msg("distance (capped) = " + distanceModified);
+
+	if (attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_sharpshooter)) then
+		begin
+			distanceModified -= 2;
+		end
+
+	debug_msg("distance (sharpshooter) = " + distanceModified);
+
+	hitChanceRawModified = hitChanceRaw - (-4 * distanceModified);
+
+	debug_msg("hitChance (without PE/perk/ss/dist) = " + hitChanceRawModified);
+
+	// apply PE, weapon perk, sharpshooter, and distance *modified* effects
+
+	variable effectiveRange1 = 0;
+	variable effectiveRange2 = statPE;
+	variable effectiveRangeShift = 0;
+
+	if (attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_sharpshooter)) then
+		begin
+			effectiveRange2 += 2;
+		end
+
+	if (weaponPerk == PERK_weapon_long_range) then
+		begin
+			effectiveRangeShift = 10;
+		end
+	else if (weaponPerk == PERK_weapon_scope_range) then
+		begin
+			effectiveRangeShift = 15;
+		end
+
+	effectiveRange1 += effectiveRangeShift;
+	effectiveRange2 += effectiveRangeShift;
+
+	debug_msg("effectiveRange1 = " + effectiveRange1);
+	debug_msg("effectiveRange2 = " + effectiveRange2);
+
+	variable rangePenalty;
+
+	if (distance > effectiveRange2) then
+		begin
+			rangePenalty = (-4) * (distance - effectiveRange2);
+		end
+	else if (distance < effectiveRange1) then
+		begin
+			rangePenalty = (-4) * (effectiveRange1 - distance);
+		end
+	else
+		begin
+			rangePenalty = 0;
+		end
+
+	debug_msg("rangePenalty = " + rangePenalty);
+
+	hitChanceRawModified += rangePenalty;
+	hitChanceCappedModified = min(95, hitChanceRawModified);
+
+	debug_msg("hitChanceRawModified = " + hitChanceRawModified);
+	debug_msg("hitChanceCappedModified = " + hitChanceCappedModified);
+
+	// set hook variables
+
+	set_sfall_arg(0, hitChanceCappedModified);
+	set_sfall_arg(7, hitChanceRawModified);
+	set_sfall_return(hitChanceCappedModified);
+
+	debug_msg("");
+
+end
+
 procedure setFractionalAP
 begin
 
@@ -332,14 +514,14 @@ procedure modifyAmmoACMod begin
 	// cycle through pids for ammo
 
 	variable pid;
-	for (pid = 1; pid < 65535 and get_proto_data(pid, PROTO_IT_COST) != -1; pid++) begin
+	for (pid = 1; pid < 2000; pid++) begin
 
 		// ammo
 
-		if proto_data(pid, it_type) != item_type_ammo then
+		if (not (proto_data(pid, it_type) == item_type_ammo)) then
 			continue;
 
-		ndebug(proto_data(pid, it_name));
+		debug_msg(proto_data(pid, it_name));
 
 		// clear AC mod
 
@@ -401,9 +583,48 @@ procedure modifyWeaponMinST begin
 		message += " " + minST;
 		debug_msg(message);
 
+		variable flag;
+		variable flagBitString;
+		flag = get_proto_data(pid, PROTO_FLAG);
+		flagBitString = "";
+		for (i = 1; i <= 2 ^ 15; i *= 2)
+		begin
+			flagBitString = ((flag bwand i) != 0) + flagBitString;
+		end
+		debug_msg(flagBitString);
+		flag = get_proto_data(pid, PROTO_FLAG_EXT);
+		flagBitString = "";
+		for (i = 1; i <= 2 ^ 15; i *= 2)
+		begin
+			flagBitString = ((flag bwand i) != 0) + flagBitString;
+		end
+		debug_msg(flagBitString);
+
 	end
 
 	debug_msg("");
 
+end
+
+procedure item_w_subtype(variable weapon, variable hit_mode) begin
+   variable attack_mode, type := WEAPON_TYPE_UNARMED;
+
+   if weapon and (hit_mode <= ATKTYPE_RWEP2) then begin
+      attack_mode := (get_proto_data(obj_pid(weapon), PROTO_IT_FLAGS));
+
+      if (hit_mode == ATKTYPE_LWEP2) or (hit_mode == ATKTYPE_RWEP2) then
+         attack_mode := (attack_mode bwand 0xF0) / 16; // shift 4 bits to the right
+      else
+         attack_mode := (attack_mode bwand 0x0F);
+
+      if (attack_mode > ATKMODE_PRI_THROW) then
+         type := WEAPON_TYPE_GUNS;
+      else if (attack_mode == ATKMODE_PRI_THROW) then
+         type := WEAPON_TYPE_THROWN;
+      else if (attack_mode > ATKMODE_PRI_KICK) then
+         type := WEAPON_TYPE_MELEE;
+   end
+
+   return type;
 end
 
