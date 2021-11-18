@@ -259,6 +259,10 @@ FO introduces "weapon effective range" as the distance at which "range penalty a
 * Range penalty applies outside of effective range 4% per hex.
 * Other perks and conditions (weapon accurate, darkness) work as before.
 
+#### Note on Sharpshooter
+
+The modification process assumes fixed Sharpshooter that adds flat 16%, not 8% as in vanilla. If you are installing this mod on not patched game you'll experience 8% accuracy drop due to that. Although, nobody is likely playing unpatched game nowadays.
+
 ### Consequences
 
 * Skill level is a direct and intuitive indicator of attack accuracy. Easy to compare and choose. No more consulting special tables and formulas needed.
@@ -266,10 +270,6 @@ FO introduces "weapon effective range" as the distance at which "range penalty a
 * Sharpshooter works as advertised.
 * Weapon long/scope range have better longer range accuracy bonus but penalized up close. They are no longer superior to regular (short range) weapons at all distances and have their weapon specialization niche.
 * Weapon long/scope range close targetting distance penalty keeps the same steady -4% per hex fall rate relieving player from accidental bad positioning frustration and constant need to count every hex to the target.
-
-### Note on Sharpshooter
-
-The modification process assumes fixed Sharpshooter that adds flat 16%, not 8% as in vanilla. If you are installing this mod on not patched game you'll experience 8% accuracy drop due to that. Although, nobody is likely playing unpatched game nowadays.
 
 # Future ideas
 
