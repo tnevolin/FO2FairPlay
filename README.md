@@ -261,7 +261,7 @@ FO introduces "weapon effective range" as the distance at which "range penalty a
 
 ### Consequences
 
-* Skill level is a direct and intuitive indicator of attack accuracy. Easy to compare and choose. No more consulting with special tables and formulas needed.
+* Skill level is a direct and intuitive indicator of attack accuracy. Easy to compare and choose. No more consulting special tables and formulas needed.
 * PE stretches weapon reach range *compensating* 4% range penalty per 1 PE. It does not *improve* the chance to hit. Still desirable stat for ranged built but not absolutely crusial one.
 * Sharpshooter works as advertised.
 * Weapon long/scope range have longer range accuracy bonus but shorter range penalty. They are no longer superior to short ranged ones at all distances and have their niche highlighting weapon specialization.
