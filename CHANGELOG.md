@@ -53,4 +53,5 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 # 0.6.
 
 * Modified ranged accuracy.
+* Mention weapon perk in the description.
 

@@ -284,14 +284,29 @@ procedure handleDescriptionObject begin
 	if (not (obj_type(object) == OBJ_TYPE_ITEM and obj_item_subtype(object) == item_type_weapon)) then
 		return;
 
+	// modify Min ST
+
 	variable pid = obj_pid(object);
 	variable minST = get_proto_data(pid, PROTO_WP_MIN_ST);
 	variable descriptionMessageId = get_proto_data(pid, PROTO_TEXTID) + 1;
 	variable descriptionMessage = message_str_game(GAME_MSG_PRO_ITEM, descriptionMessageId);
 	variable descriptionMessageSplit = string_split(descriptionMessage, " Min ST:");
-	variable descriptionMessageWithUpdatedMinST = descriptionMessageSplit[0] + " Min ST: " + minST + ".";
+	variable descriptionMessageModified = descriptionMessageSplit[0] + " Min ST: " + minST + ".";
 
-	set_sfall_return(get_string_pointer(descriptionMessageWithUpdatedMinST));
+	// add weapon perk description
+
+	variable weaponPerk = get_proto_data(pid, PROTO_WP_PERK);
+
+	if (weaponPerk == PERK_weapon_accurate) then
+		descriptionMessageModified += " (accurate).";
+	else if (weaponPerk == PERK_weapon_long_range) then
+		descriptionMessageModified += " (long range).";
+	else if (weaponPerk == PERK_weapon_scope_range) then
+		descriptionMessageModified += " (scope range).";
+
+	// return modified description
+
+	set_sfall_return(get_string_pointer(descriptionMessageModified));
 
 end
 
