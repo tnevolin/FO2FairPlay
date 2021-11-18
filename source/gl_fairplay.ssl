@@ -420,7 +420,7 @@ begin
 
 	if (attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_sharpshooter)) then
 		begin
-			distanceModified -= 2;
+			distanceModified -= 4;
 		end
 
 	debug_msg("distance (sharpshooter) = " + distanceModified);
@@ -437,7 +437,7 @@ begin
 
 	if (attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_sharpshooter)) then
 		begin
-			effectiveRange2 += 2;
+			effectiveRange2 += 4;
 		end
 
 	if (weaponPerk == PERK_weapon_long_range) then
