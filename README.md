@@ -281,6 +281,17 @@ FO lore presents primary stats as what is actually called a character! Something
 
 * All power armors grant +1 ST.
 
+## Weapon accurate
+
+I feel weapon accurate perk is given too much lef and right without consideration. Game mechanics wise this perk should symbolize some *unnatural* accuracy improvement aquired from the different targetting method such as shooting multiple pellet per shot making some but not all of them most certainly hit the target. All shotguns should have it by default offset by their lower damage (not all pellets hit) and shorter aiming range (extremely wide dispersion). Other weapons should be granted this bonus on a personal case basis like hunting riffle and Mauser. None of burstable weapon should have it.
+
+* All shotguns (12 gauge caliber weapons):
+	* Have weapon accurate perk (+20% accuracy).
+	* Have max damage slightly reduced.
+	* Have range significantly reduced.
+* All burstable weapons except shotguns are NOT accurate.
+* (Optional, not implemented) all 12 gauge ammunition is added 20 DR mod.
+
 # Future ideas
 
 ## CH effect on combat

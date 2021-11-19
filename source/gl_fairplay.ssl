@@ -39,6 +39,8 @@ procedure handleToHit;
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
 procedure modifyWeaponMinST;
+procedure modifyShotguns;
+procedure modifyBurstWeaponAccurate;
 
 procedure item_w_subtype(variable weapon, variable attackMode);
 
@@ -67,6 +69,14 @@ procedure start begin
 		// weapon min ST
 
 		call modifyWeaponMinST;
+
+		// shotgun
+
+		call modifyShotguns;
+
+		// weapon accurate
+
+		call modifyBurstWeaponAccurate;
 
 	end
 end
@@ -136,7 +146,7 @@ procedure handleUseObject begin
 
 	// dude uses book
 
-	if (not (user == dude_obj and obj_type(object) == OBJ_TYPE_ITEM and obj_item_subtype(object) == item_type_misc_item)) then
+	if (not (user == dude_obj and obj_item_subtype(object) == item_type_misc_item)) then
 		return;
 
 	ndebug("book: " + obj_name(object));
@@ -286,25 +296,25 @@ procedure handleDescriptionObject begin
 
 	// weapon
 
-	if (obj_type(object) == OBJ_TYPE_ITEM and obj_item_subtype(object) == item_type_weapon) then
+	if (obj_item_subtype(object) == item_type_weapon) then
 		begin
 
 			// display correct Min ST
 
 			variable minST = get_proto_data(pid, PROTO_WP_MIN_ST);
 			descriptionMessageSplit = string_split(descriptionMessage, " Min ST:");
-			descriptionMessageModified = descriptionMessageSplit[0] + " Min ST: " + minST + ".";
+			descriptionMessageModified = descriptionMessageSplit[0] + " <Min ST: " + minST + ">.";
 
 			// add weapon perk description
 
 			variable weaponPerk = get_proto_data(pid, PROTO_WP_PERK);
 
 			if (weaponPerk == PERK_weapon_accurate) then
-				descriptionMessageModified += " (accurate).";
+				descriptionMessageModified += " <accurate>.";
 			else if (weaponPerk == PERK_weapon_long_range) then
-				descriptionMessageModified += " (long range).";
+				descriptionMessageModified += " <long range>.";
 			else if (weaponPerk == PERK_weapon_scope_range) then
-				descriptionMessageModified += " (scope range).";
+				descriptionMessageModified += " <scope range>.";
 
 			// return modified description
 
@@ -556,8 +566,6 @@ procedure modifyWeaponMinST begin
 
 	ndebug("modifyWeaponMinST");
 
-	// allow memory modification
-
 	variable pid;
 	for (pid = 1; pid < 2000; pid++)
 	begin
@@ -607,6 +615,102 @@ procedure modifyWeaponMinST begin
 	debug_msg("");
 
 end
+
+procedure modifyShotguns begin
+
+	ndebug("modifyShotguns");
+
+	variable pid;
+	for (pid = 1; pid < 2000; pid++)
+	begin
+
+		// weapon
+
+		if (not (proto_data(pid, it_type) == item_type_weapon)) then
+			continue;
+
+		// shotgun
+
+		if (not (get_proto_data(pid, PROTO_WP_CALIBER) == CALIBER_12_GAUGE)) then
+			continue;
+
+		debug_msg(proto_data(pid, it_name));
+
+		// accurate
+
+		set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_accurate);
+		debug_msg("\taccurate");
+
+		// reduced damage
+
+		variable damageMin = get_proto_data(pid, PROTO_WP_DMG_MIN);
+		variable damageMax = get_proto_data(pid, PROTO_WP_DMG_MAX);
+		damageMax -= 4;
+		set_proto_data(pid, PROTO_WP_DMG_MAX, damageMax - 4);
+		debug_msg("\tdamage: " + damageMin + "-" + damageMax);
+
+		// reduced range
+
+		variable range1 = get_proto_data(pid, PROTO_WP_RANGE_1);
+		variable range2 = get_proto_data(pid, PROTO_WP_RANGE_2);
+		if (range1 > 5) then
+			range1 = 5 + (range1 - 5) / 2;
+		if (range2 > 5) then
+			range2 = 5 + (range2 - 5) / 2;
+		set_proto_data(pid, PROTO_WP_RANGE_1, range1);
+		set_proto_data(pid, PROTO_WP_RANGE_2, range2);
+		debug_msg("\trange: " + range1 + "-" + range2);
+
+	end
+
+	debug_msg("");
+
+end
+
+procedure modifyBurstWeaponAccurate begin
+
+	ndebug("modifyBurstWeaponAccurate");
+
+	variable pid;
+	for (pid = 1; pid < 2000; pid++)
+	begin
+
+		// weapon
+
+		if (not (proto_data(pid, it_type) == item_type_weapon)) then
+			continue;
+
+		// not shotgun
+
+		if (get_proto_data(pid, PROTO_WP_CALIBER) == CALIBER_12_GAUGE) then
+			continue;
+
+		// accurate
+
+		if (not (get_proto_data(pid, PROTO_WP_PERK) == PERK_weapon_accurate)) then
+			continue;
+
+		// burstable
+
+		if (get_proto_data(pid, PROTO_WP_BURST) <= 1) then
+			continue;
+
+		debug_msg(proto_data(pid, it_name));
+
+		// NOT accurate
+
+		set_proto_data(pid, PROTO_WP_PERK, -1);
+		debug_msg("\tNOT accurate");
+
+	end
+
+	debug_msg("");
+
+end
+
+// ====================
+// utility methods
+// ====================
 
 procedure item_w_subtype(variable weapon, variable hit_mode) begin
    variable attack_mode, type := WEAPON_TYPE_UNARMED;

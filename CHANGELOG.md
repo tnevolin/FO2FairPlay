@@ -60,3 +60,8 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * Scrutinized weapon Min ST little bit.
 * Power armor ST bonus reduced.
 
+# 0.8
+
+* Shotguns are reworked to be more accurate, short ranged, non AP weapons.
+* Weapon accurate perk is removed from all burstable weapons except shotguns.
+
