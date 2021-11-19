@@ -55,3 +55,8 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * Modified ranged accuracy.
 * Mention weapon perk in the description.
 
+# 0.7
+
+* Scrutinized weapon Min ST little bit.
+* Power armor ST bonus reduced.
+

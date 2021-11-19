@@ -236,13 +236,13 @@ With new formula some extra powerful weapons Min ST goes beyond 10 making it imp
 Everything but grenades:
 
 ```
-weapon min ST = 1 + [sqrt(average damage) * 1.3] + [burst size / 8]
+weapon min ST = 1 + [sqrt(average damage) * 1.40] + [burst size / 5]
 ```
 
 Grenades:
 
 ```
-weapon min ST = 1 + [sqrt(average damage) * 1.3 * 0.3]
+weapon min ST = 1 + [sqrt(average damage) * 1.4 * 0.3]
 ```
 
 ## Ranged accuracy
@@ -270,6 +270,14 @@ The modification process assumes fixed Sharpshooter that adds flat 16%, not 8% a
 * Sharpshooter works as advertised.
 * Weapon long/scope range have better longer range accuracy bonus but penalized up close. They are no longer superior to regular (short range) weapons at all distances and have their weapon specialization niche.
 * Weapon long/scope range close targetting distance penalty keeps the same steady -4% per hex fall rate relieving player from accidental bad positioning frustration and constant need to count every hex to the target.
+
+## Power armor ST bonus
+
+That seems to be overly excessive. People are trying to optimize their initial ST assuming wearing advanced power armor at the end of the game. Raising initial ST over the 5 seems like an absolute waste after aquiring +1 memory module improvement and +4 from APA. Even ST 5 could be considered excessive as one can easily raise ST by 4 with just 2 Buffouts or even by 6 with 2 Jets on top of it. However, *before* aquiring APA ST 4 is too low to handle advanced weapons or to build unarmed/melee character. It seems that with memory modules and drugs out there raising ST even more seems riduculous. FO lore presents primary stats as what is actually called a character! Something chosen once at birth (character creation) and never modified throughout the game. That should be a direct opposite of skill focus that may change over the course of the game as player sees fit. I am not a particularly keen of Gifted trait, memory modules and zeta scans as they break this paradigm and give player stupid "maximize primary stats" golden fever idea destroying actual *role* playing. And +4 ST from APA is the worst abomination of them all turning weakling diplomat into a tank.
+
+### Proposed solution
+
+* All power armors grant +1 ST.
 
 # Future ideas
 
