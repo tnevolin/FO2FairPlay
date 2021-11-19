@@ -272,11 +272,10 @@ The modification process assumes fixed Sharpshooter that adds flat 16%, not 8% a
 * Weapon long/scope range close targetting distance penalty keeps the same steady -4% per hex fall rate relieving player from accidental bad positioning frustration and constant need to count every hex to the target.
 
 ## Power armor ST bonus
-fdsfsdfdsfsd
 
 That seems to be overly excessive. People are trying to optimize their initial ST assuming wearing advanced power armor at the end of the game. Raising initial ST over the 5 seems like an absolute waste after aquiring +1 memory module improvement and +4 from APA. Even ST 5 could be considered excessive as one can easily raise ST by 4 with just 2 Buffouts or even by 6 with 2 Jets on top of it. However, *before* aquiring APA ST 4 is too low to handle advanced weapons or to build unarmed/melee character.
 
-1FO lore presents primary stats as what is actually called a character! Something granted once at birth (character creation) and never modified throughout the game. That should be a direct opposite of skill focus that may change over the course of the game as player sees fit. I am not a particularly keen of Gifted trait, memory modules and zeta scans as they break this paradigm and give player stupid "maximize primary stats" golden fever idea destroying actual *role* playing. And +4 ST from APA is the worst abomination of them all turning weakling diplomat into a tank.
+FO lore presents primary stats as what is actually called a character! Something granted once at birth (character creation) and never modified throughout the game. That should be a direct opposite of skill focus that may change over the course of the game as player sees fit. I am not a particularly keen of Gifted trait, memory modules and zeta scans as they break this paradigm and give player stupid "maximize primary stats" golden fever idea destroying actual *role* playing. And +4 ST from APA is the worst abomination of them all turning weakling diplomat into a tank.
 
 ### Proposed solution
 
