@@ -287,27 +287,10 @@ FO lore presents primary stats as what is actually called a character! Something
 
 *NOT Implemented*
 
-FO2 ties party size to CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership/spirit or sort?).
+FO2 ties party size to CH making it not absolutely worthless. I feel it is still not on par with other combat skills like ST/PE/AG. May give it some combat effect too like in FO3 where it increases party member damage and DR (emulating combat leadership/spirit of sort?). From the other hand it would be better to apply this effect to enemies only as party size already benefits from CH directly. Lore wise can be explained as hesitation to attack the army of famous fearsome leader.
 
-### Potential solutions
+### Proposed solution
 
-* `Friendly critters DR bonus (including dude) = -20% + 4% x CH`
-
-## AC, DT, DR simplification
-
-*NOT Implemented*
-
-There are a lot combat calculation parameters in game those make it quite unplayable without consulting weapon/armor parameters table and calculator. They are definitely redundant and I believe these parameters should be simplified as much as possible for more intuitive play.
-
-Good example of such simplification is [FO2Tweaks Damage mod](https://forums.bgforge.net/viewtopic.php?f=26&p=388). It ties ammo DT/DR modifier, ammo damage modifier, and armor DT/DR all together removing unnecessary variable clutter.
-
-I would like to continue this path giving simple meaning to different game parameters allowing players to estimate their corresponding effect without use of item parameter tables and heavy formulas.
-
-### Proposed approach
-
-#### Accuracy and AC
-
-Accuracy is an ability to hit the target. AC is a corresponding counter for it: an ability to disrupt opponent's aiming and worsen their accuracy. Accuracy grows with the skill advancement as game progresses. So should the armor AC to play natural counter and restrict accuracy from skyroketing beyond 200% beyond which skill investment is useless. To put it differently, player invests into combat skill to overcome evergrowing opponents' AC.
-
-With that in mind armor AC should grow proportionally to its percieved "strength" but should not go higher than say 20%-30%. Vanilla does a pretty good job on that except some types of leather armor somehow are more AC protective than metal armor. That probably should be corrected.
+* Enemy NPC chance to freeze in fear or flee: `4% x CH`.
+* Enemy NPC chance to get -1 AP penalty: `10% x CH`.
 
