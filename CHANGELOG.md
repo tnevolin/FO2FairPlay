@@ -65,3 +65,8 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * Shotguns are reworked to be more accurate, short ranged, non AP weapons.
 * Weapon accurate perk is removed from all burstable weapons except shotguns.
 
+# 0.9
+
+* Beautified weapon description with Min ST and perk on a new lines.
+* Fixed problem with proto data been reverted to original on map entrance.
+

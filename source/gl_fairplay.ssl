@@ -20,7 +20,7 @@ Requires sfall 4.3.0.2 +
 
 // constants
 
-#define SKILL_RATE_BASE (15)
+#define SKILL_RATE_BASE_CHANGE (10)
 
 #define WEAPON_MINST_DAMAGE_MULTIPLIER (1.00)
 #define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.40)
@@ -32,6 +32,9 @@ variable accumulatedFractionalAP = 0.0;
 variable carryoverAP = 0;
 variable ammoPids;
 
+procedure start;
+procedure map_enter_p_proc;
+procedure overrideProtoData;
 procedure handleCombatTurn;
 procedure handleUseObject;
 procedure handleDescriptionObject;
@@ -58,27 +61,39 @@ procedure start begin
 
 		call setFractionalAP();
 
-		// ammo AC mod
-
-		call modifyAmmoACMod;
-
 		// SP rate
 
-		mod_skill_points_per_level(SKILL_RATE_BASE - get_pc_base_stat(STAT_iq));
+		mod_skill_points_per_level(SKILL_RATE_BASE_CHANGE - get_pc_base_stat(STAT_iq));
 
-		// weapon min ST
+		// override proto data
 
-		call modifyWeaponMinST;
-
-		// shotgun
-
-		call modifyShotguns;
-
-		// weapon accurate
-
-		call modifyBurstWeaponAccurate;
+		call overrideProtoData;
 
 	end
+end
+
+procedure map_enter_p_proc begin
+	call overrideProtoData;
+end
+
+procedure overrideProtoData begin
+
+	// ammo AC mod
+
+	call modifyAmmoACMod;
+
+	// weapon min ST
+
+	call modifyWeaponMinST;
+
+	// shotgun
+
+	call modifyShotguns;
+
+	// weapon accurate
+
+	call modifyBurstWeaponAccurate;
+
 end
 
 procedure handleCombatTurn begin
@@ -303,18 +318,18 @@ procedure handleDescriptionObject begin
 
 			variable minST = get_proto_data(pid, PROTO_WP_MIN_ST);
 			descriptionMessageSplit = string_split(descriptionMessage, " Min ST:");
-			descriptionMessageModified = descriptionMessageSplit[0] + " <Min ST: " + minST + ">.";
+			descriptionMessageModified = descriptionMessageSplit[0] + "\\n- Min ST: " + minST + "";
 
 			// add weapon perk description
 
 			variable weaponPerk = get_proto_data(pid, PROTO_WP_PERK);
 
 			if (weaponPerk == PERK_weapon_accurate) then
-				descriptionMessageModified += " <accurate>.";
+				descriptionMessageModified += "\\n- accurate";
 			else if (weaponPerk == PERK_weapon_long_range) then
-				descriptionMessageModified += " <long range>.";
+				descriptionMessageModified += "\\n- long range";
 			else if (weaponPerk == PERK_weapon_scope_range) then
-				descriptionMessageModified += " <scope range>.";
+				descriptionMessageModified += "\\n- scope range";
 
 			// return modified description
 
