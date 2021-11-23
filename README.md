@@ -236,14 +236,18 @@ With new formula some extra powerful weapons Min ST goes beyond 10 making it imp
 Everything but grenades:
 
 ```
-weapon min ST = 1 + [sqrt(average damage) * 1.40] + [burst size / 5]
+weapon min ST = 1 + [sqrt(average damage) * 1.30] + [burst size / 5]
 ```
 
 Grenades:
 
 ```
-weapon min ST = 1 + [sqrt(average damage) * 1.4 * 0.3]
+weapon min ST = 1 + [sqrt(average damage) * 1.3 * 0.3]
 ```
+
+### Penalty
+
+* Lowered penalty down to 10% to ease ST combat value. Otherwise, it becomes extremely important especially in early game.
 
 ## Ranged accuracy
 
@@ -291,6 +295,24 @@ I feel weapon accurate perk is given too much lef and right without consideratio
 	* Have range significantly reduced.
 * All burstable weapons except shotguns are NOT accurate.
 * (Optional, not implemented) all 12 gauge ammunition is added 20 DR mod.
+
+## Ammo DR mod adjustment
+
+This mod is based on FO2Tweaks damage mod. This mod also adjusts DR mod for all projectiles to following. That seems to make better distinction between different bullet types across the weapon damage range and armor range.
+
+Multiplier is calculated as follow and multiplies armor DT, armor DR and final damage.
+
+```
+multiplier = (1 + <DR mod> / 100)
+```
+
+| type | DR mod | multiplier | most effective against |
+|----|----:|----:|----|
+| AP | -40 | 0.60 | PA2 and above |
+| FMJ, ball | -20 | 0.80 | metal2 to PA2 |
+| normal, shotgun slug | 0 | 1.00 | combat leather jacket to metal 2 |
+| JHP, shotgun regular | +35 | 1.35 | leather |
+| shotgun buckshot | +70 | 1.70 | unarmored to leather |
 
 # Future ideas
 

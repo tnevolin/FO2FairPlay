@@ -22,9 +22,8 @@ Requires sfall 4.3.0.2 +
 
 #define SKILL_RATE_BASE_CHANGE (10)
 
-#define WEAPON_MINST_DAMAGE_MULTIPLIER (1.00)
-#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.40)
-#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE_MODIFIER (0.30)
+#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.20)
+#define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE (0.40)
 #define WEAPON_MINST_BURST_DIVIDER (5)
 
 variable fractionalAP = 0.0;
@@ -34,15 +33,21 @@ variable ammoPids;
 
 procedure start;
 procedure map_enter_p_proc;
-procedure overrideProtoData;
+
+procedure modifyProtoData;
+
 procedure handleCombatTurn;
 procedure handleUseObject;
 procedure handleDescriptionObject;
 procedure handleToHit;
+procedure handleUseSkillOn;
+procedure handleUseObjectOn;
+
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
 procedure modifyWeaponMinST;
 procedure modifyShotguns;
+procedure modifyShotgunAmmunition;
 procedure modifyBurstWeaponAccurate;
 
 procedure item_w_subtype(variable weapon, variable attackMode);
@@ -56,6 +61,8 @@ procedure start begin
 		register_hook_proc(HOOK_USEOBJ, handleUseObject);
 		register_hook_proc(HOOK_DESCRIPTIONOBJ, handleDescriptionObject);
 		register_hook_proc(HOOK_TOHIT, handleToHit);
+//		register_hook_proc(HOOK_USESKILLON, handleUseSkillOn);
+//		register_hook_proc(HOOK_USEOBJON, handleUseObjectOn);
 
 		// fractional AP
 
@@ -65,18 +72,22 @@ procedure start begin
 
 		mod_skill_points_per_level(SKILL_RATE_BASE_CHANGE - get_pc_base_stat(STAT_iq));
 
-		// override proto data
+		// trigger map enter
 
-		call overrideProtoData;
+		call map_enter_p_proc;
 
 	end
 end
 
 procedure map_enter_p_proc begin
-	call overrideProtoData;
+
+	// modify proto data
+
+	call modifyProtoData;
+
 end
 
-procedure overrideProtoData begin
+procedure modifyProtoData begin
 
 	// ammo AC mod
 
@@ -86,9 +97,13 @@ procedure overrideProtoData begin
 
 	call modifyWeaponMinST;
 
-	// shotgun
+	// shotguns
 
 	call modifyShotguns;
+
+	// shotgun ammunition
+
+	call modifyShotgunAmmunition;
 
 	// weapon accurate
 
@@ -502,6 +517,26 @@ begin
 	debug_msg("rangePenalty = " + rangePenalty);
 
 	hitChanceRawModified += rangePenalty;
+
+	// modify insufficien Min ST penalty
+
+	variable minST = get_proto_data(weaponPid, PROTO_WP_MIN_ST);
+	variable statST = get_critter_stat(attacker, STAT_st);
+	variable insufficientMinSTPenaltyVanilla = 0;
+	variable insufficientMinSTPenaltyModified = 0;
+
+	if (statST < minST) then
+		begin
+			insufficientMinSTPenaltyVanilla = 20 * (statST - minST);
+			insufficientMinSTPenaltyModified = 10 * (statST - minST);
+			debug_msg("insufficientMinSTPenaltyVanilla = " + insufficientMinSTPenaltyVanilla);
+			debug_msg("insufficientMinSTPenaltyModified = " + insufficientMinSTPenaltyModified);
+		end
+
+	hitChanceRawModified += - insufficientMinSTPenaltyVanilla + insufficientMinSTPenaltyModified;
+
+	// cap the result
+
 	hitChanceCappedModified = min(95, hitChanceRawModified);
 
 	debug_msg("hitChanceRawModified = " + hitChanceRawModified);
@@ -514,6 +549,59 @@ begin
 	set_sfall_return(hitChanceCappedModified);
 
 	debug_msg("");
+
+end
+
+procedure handleUseSkillOn begin
+
+	display_msg("handleUseSkillOn");
+
+	variable user = get_sfall_arg;
+	variable object = get_sfall_arg;
+	variable skill = get_sfall_arg;
+
+	// dude lockipick
+
+	if (not (user == dude_obj and skill == SKILL_LOCKPICK)) then
+		return;
+
+	display_msg("dude lockipick");
+
+	// search inventory for lockpicks
+
+	display_msg("inven_count(user) = " + inven_count(user));
+	variable lockpicksObject = 0;
+	variable inventorySlot;
+	for (inventorySlot = 0; inventorySlot < inven_count(user); inventorySlot++)
+	begin
+
+		variable inventoryObject = inven_ptr(user, inventorySlot);
+		debug_msg("inventorySlot = " + inventorySlot);
+		debug_msg("inventoryObject = " + obj_name(inventoryObject));
+
+		// lockpicks
+
+		if (object and obj_pid(inventoryObject) == PID_LOCKPICKS) then
+			begin
+				lockpicksObject = inventoryObject;
+				display_msg("Lockpicks are in inventory. Slot = " + inventorySlot);
+				break;
+			end
+
+	end
+
+	if (lockpicksObject) then
+		begin
+			display_msg("before use");
+			use_obj_on_obj(lockpicksObject, object);
+			display_msg("after use");
+		end
+
+end
+
+procedure handleUseObjectOn begin
+
+	display_msg("handleUseObjectOn");
 
 end
 
@@ -594,7 +682,7 @@ procedure modifyWeaponMinST begin
 
 		variable weaponMinSTDamageSqrtMultiplier = WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER;
 		if (get_proto_data(pid, PROTO_WP_ANIM) == 0 and (get_proto_data(pid, PROTO_WP_PROJ_PID) == 83886105 or get_proto_data(pid, PROTO_WP_PROJ_PID) == 83886110)) then
-			weaponMinSTDamageSqrtMultiplier *= WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE_MODIFIER;
+			weaponMinSTDamageSqrtMultiplier = WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE;
 
 		// calculate min ST
 
@@ -602,7 +690,7 @@ procedure modifyWeaponMinST begin
 		variable minSTOld = get_proto_data(pid, PROTO_WP_MIN_ST);
 		variable averageDamage = (get_proto_data(pid, PROTO_WP_DMG_MIN) + get_proto_data(pid, PROTO_WP_DMG_MAX)) / 2;
 		variable burst = get_proto_data(pid, PROTO_WP_BURST);
-		variable minST = max(minSTOld, 1 + floor(sqrt(averageDamage * WEAPON_MINST_DAMAGE_MULTIPLIER) * weaponMinSTDamageSqrtMultiplier + burst / WEAPON_MINST_BURST_DIVIDER));
+		variable minST = max(minSTOld, 1 + floor(sqrt(averageDamage) * weaponMinSTDamageSqrtMultiplier + burst / WEAPON_MINST_BURST_DIVIDER));
 
 		set_proto_data(pid, PROTO_WP_MIN_ST, minST);
 
@@ -653,29 +741,58 @@ procedure modifyShotguns begin
 
 		// accurate
 
-		set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_accurate);
-		debug_msg("\taccurate");
-
-		// reduced damage
-
-		variable damageMin = get_proto_data(pid, PROTO_WP_DMG_MIN);
-		variable damageMax = get_proto_data(pid, PROTO_WP_DMG_MAX);
-		damageMax -= 4;
-		set_proto_data(pid, PROTO_WP_DMG_MAX, damageMax - 4);
-		debug_msg("\tdamage: " + damageMin + "-" + damageMax);
+		set_proto_data(pid, PROTO_WP_PERK, -1);
+		debug_msg("\tNOT accurate");
 
 		// reduced range
 
 		variable range1 = get_proto_data(pid, PROTO_WP_RANGE_1);
 		variable range2 = get_proto_data(pid, PROTO_WP_RANGE_2);
 		if (range1 > 5) then
-			range1 = 5 + (range1 - 5) / 2;
+			range1 = 5 + (range1 - 5) / 3;
 		if (range2 > 5) then
-			range2 = 5 + (range2 - 5) / 2;
+			range2 = 5 + (range2 - 5) / 3;
 		set_proto_data(pid, PROTO_WP_RANGE_1, range1);
 		set_proto_data(pid, PROTO_WP_RANGE_2, range2);
 		debug_msg("\trange: " + range1 + "-" + range2);
 
+	end
+
+	debug_msg("");
+
+end
+
+procedure modifyShotgunAmmunition begin
+
+	ndebug("modifyShotgunAmmunition");
+
+	variable pid;
+	for (pid = 1; pid < 2000; pid++)
+	begin
+
+		// ammunition
+
+		if (not (proto_data(pid, it_type) == item_type_ammo)) then
+			continue;
+
+		debug_msg(proto_data(pid, it_name));
+		debug_msg("\tDR mod = " + get_proto_data(pid, PROTO_AM_DR_MOD));
+		debug_msg("\tdmg mult = " + get_proto_data(pid, PROTO_AM_DMG_MULT));
+		debug_msg("\tdmg div  = " + get_proto_data(pid, PROTO_AM_DMG_DIV));
+
+		// shotgun ammunition
+
+		if (not (get_proto_data(pid, PROTO_AM_CALIBER) == CALIBER_12_GAUGE)) then
+			continue;
+
+//		debug_msg(proto_data(pid, it_name));
+//
+//		// add 20 to DR
+//
+//		variable drMod = get_proto_data(pid, PROTO_AM_DR_MOD) + 20 / 5;
+//		set_proto_data(pid, PROTO_AM_DR_MOD, drMod);
+//		debug_msg("\tDR mod = " + drMod);
+//
 	end
 
 	debug_msg("");

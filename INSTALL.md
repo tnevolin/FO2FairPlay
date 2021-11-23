@@ -14,6 +14,18 @@
 
 1. Copy data and mod folders to Fallout root directory override everything.
 
+This mod reuses following other mod files:
+
+* sFall
+	* stats.ini
+	* skills.ini
+	* unarmed.ini
+	* perks.ini
+* FO2Tweaks
+	* fo2tweaks.ini
+
+If you were tuned any of above files please merge them with this mod version instead of overriding.
+
 2. Uncomment and modify following entries in ddraw.ini.
 ```
 DerivedStats=mods\stats.ini

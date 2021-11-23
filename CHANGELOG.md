@@ -70,3 +70,16 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * Beautified weapon description with Min ST and perk on a new lines.
 * Fixed problem with proto data been reverted to original on map entrance.
 
+# 0.10
+
+* Relaxed Min ST requirements. They are too harsh for weaker character.
+* Lowered insufficient Min ST penalty to 10%.
+* Shotguns are not accurate anymore.
+* Shotguns damage is not reduced anymore.
+* Shotguns range is reduced even more.
+* Ammunition DR mod is standardized and modified slightly.
+* Shotgun ammunition is given high DR mod for better damage but worse penetration.
+	* Slug: +00.
+	* Standard: +35.
+	* Buckshot: +70.
+
