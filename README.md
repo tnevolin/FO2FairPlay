@@ -27,15 +27,24 @@ Reviving inferior feature requires not only enhancing said feature value but als
 
 sFall: to all its authors and contributors. Making modding much easier!
 
-# Implemented modifications
+# Balance
 
 ## Base HP
 
+### Changes
+
+* Max HP reflects base max HP change due to bonus EN.
+* Base max HP is given big static bonus and bigger EN bonus but no ST bonus.
 ```
-HP = 15 + 3 * EN
+base max HP = 15 + 3 * EN
 ```
 
-* Strength affecting health is somewhat awkward especially when it does not contribute to HP increase per level later on.
+### Consequences
+
+* Max HP depends on EN only. Cleaner this way.
+* Drugs affecting EN result in corresponding max HP change.
+* Temple of Trials is passable even for non combat character.
+* Early encounters are somewheat more doable even without companions.
 
 ## Base AP and AC
 
@@ -309,10 +318,19 @@ multiplier = (1 + <DR mod> / 100)
 | type | DR mod | multiplier | most effective against |
 |----|----:|----:|----|
 | AP | -40 | 0.60 | PA2 and above |
-| FMJ, ball | -20 | 0.80 | metal2 to PA2 |
-| normal, shotgun slug | 0 | 1.00 | combat leather jacket to metal 2 |
-| JHP, shotgun regular | +35 | 1.35 | leather |
+| FMJ, ball | -20 | 0.80 | brotherhood to PA2 |
+| normal, shotgun slug | 0 | 1.00 | metal2 to combat2 |
+| JHP, shotgun regular | +35 | 1.35 | leather to metal |
 | shotgun buckshot | +70 | 1.70 | unarmored to leather |
+
+# Quality of life
+
+## Lockpicks
+
+Vanilla requires actual lockpicks *use* on the lock to enjoy their skill bonus. Pretty annoying and boring operation. This mod fixes this. When dude uses lockpick this mod searches for best lockpics set in the inventory for given target lock type (standard/electric) and adjusts lockpick skill accordingly.
+
+* No need to put lockpicks in hand slot and back.
+* No need to guess lock type (standard/electric) - automated.
 
 # Future ideas
 

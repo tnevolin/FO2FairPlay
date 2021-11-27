@@ -20,12 +20,13 @@ Requires sfall 4.3.0.2 +
 
 // constants
 
+#define LOCKPICKS_SKILL_LEVEL_BOOST (20)
 #define SKILL_RATE_BASE_CHANGE (10)
-
 #define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.20)
 #define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE (0.40)
 #define WEAPON_MINST_BURST_DIVIDER (5)
 
+variable lockpickSkillLevel;
 variable fractionalAP = 0.0;
 variable accumulatedFractionalAP = 0.0;
 variable carryoverAP = 0;
@@ -36,12 +37,13 @@ procedure map_enter_p_proc;
 
 procedure modifyProtoData;
 
+procedure handleStandardProcedure;
+procedure handleStandardProcedureEnd;
+
 procedure handleCombatTurn;
 procedure handleUseObject;
 procedure handleDescriptionObject;
 procedure handleToHit;
-procedure handleUseSkillOn;
-procedure handleUseObjectOn;
 
 procedure setFractionalAP;
 procedure modifyAmmoACMod;
@@ -49,11 +51,18 @@ procedure modifyWeaponMinST;
 procedure modifyShotguns;
 procedure modifyShotgunAmmunition;
 procedure modifyBurstWeaponAccurate;
+procedure modifyImprovedGrenadesAccurate;
 
 procedure item_w_subtype(variable weapon, variable attackMode);
+procedure getBestLockpicksLevel(variable critter, variable lockpicksType);
 
 procedure start begin
 	if game_loaded then begin
+
+		// standard procedure hooks
+
+		register_hook_proc(HOOK_STDPROCEDURE, handleStandardProcedure);
+		register_hook_proc(HOOK_STDPROCEDURE_END, handleStandardProcedureEnd);
 
 		// hooks
 
@@ -61,8 +70,6 @@ procedure start begin
 		register_hook_proc(HOOK_USEOBJ, handleUseObject);
 		register_hook_proc(HOOK_DESCRIPTIONOBJ, handleDescriptionObject);
 		register_hook_proc(HOOK_TOHIT, handleToHit);
-//		register_hook_proc(HOOK_USESKILLON, handleUseSkillOn);
-//		register_hook_proc(HOOK_USEOBJON, handleUseObjectOn);
 
 		// fractional AP
 
@@ -108,6 +115,131 @@ procedure modifyProtoData begin
 	// weapon accurate
 
 	call modifyBurstWeaponAccurate;
+
+	// improved grenages weapon accurate
+
+	call modifyImprovedGrenadesAccurate;
+
+end
+
+// ====================
+// handlers
+// ====================
+
+procedure handleStandardProcedure begin
+
+	ndebug("handleStandardProcedure");
+
+	variable number = get_sfall_arg;
+	variable object = get_sfall_arg;
+	variable caller = get_sfall_arg;
+
+	if (object and caller) then
+		begin
+
+			set_self(object);
+			variable skill = action_being_used;
+			set_self(0);
+
+			if (skill == SKILL_LOCKPICK) then
+				begin
+
+					ndebug("use lockpick on object - before");
+
+					// select lock type
+
+					// standard by default
+					variable lockType = 0;
+
+					// scripts with electronic locks
+					if (number == 465 or number == 464 or number == 999 or number == 1202 or number == 1023 or number == 989 or number == 1089 or number == 1153 or number == 577) then
+						lockType = 1;
+
+					debug_msg("lockType = " + lockType);
+
+					variable bestLockpicksLevel = getBestLockpicksLevel(caller, lockType);
+					variable lockpickSkillLevelBoost = LOCKPICKS_SKILL_LEVEL_BOOST * bestLockpicksLevel;
+
+					debug_msg("bestLockpicksLevel = " + bestLockpicksLevel);
+					debug_msg("lockpickSkillLevelBoost = " + lockpickSkillLevelBoost);
+
+					lockpickSkillLevel = get_critter_skill_points(caller, SKILL_LOCKPICK);
+
+					debug_msg("skill level = " + get_critter_skill_points(caller, SKILL_LOCKPICK));
+					set_critter_skill_points(caller, SKILL_LOCKPICK, lockpickSkillLevel + lockpickSkillLevelBoost);
+					debug_msg("skill level = " + get_critter_skill_points(caller, SKILL_LOCKPICK));
+
+					// get lockpick prototype
+
+					variable lockpiksPid = 0;
+
+					if (lockType == 0) then
+						begin
+							if (bestLockpicksLevel == 1) then
+								lockpiksPid = PID_LOCKPICKS;
+							else
+							if (bestLockpicksLevel == 2) then
+								lockpiksPid = PID_EXP_LOCKPICK_SET;
+						end
+					else
+					if (lockType == 1) then
+						begin
+							if (bestLockpicksLevel == 1) then
+								lockpiksPid = PID_ELECTRONIC_LOCKPICKS;
+							else
+							if (bestLockpicksLevel == 2) then
+								lockpiksPid = PID_ELEC_LOCKPICK_MKII;
+						end
+
+					if (lockpiksPid != 0 and lockpickSkillLevelBoost != 0) then
+						begin
+							display_msg(proto_data(lockpiksPid, it_name) + " adds " + lockpickSkillLevelBoost + " to lockpick skill.");
+						end
+
+					debug_msg("");
+
+				end
+
+		end
+
+end
+
+procedure handleStandardProcedureEnd begin
+
+	ndebug("handleStandardProcedureEnd");
+
+	variable number = get_sfall_arg;
+	variable object = get_sfall_arg;
+	variable caller = get_sfall_arg;
+	variable after = get_sfall_arg;
+
+	if (not (after == 1)) then
+		begin
+			ndebug("handleStandardProcedureEnd: arg3 != 1");
+			return;
+		end
+
+	if (object and caller) then
+		begin
+
+			set_self(object);
+			variable skill = action_being_used;
+			set_self(0);
+
+			if (object and caller and skill == SKILL_LOCKPICK) then
+				begin
+
+					ndebug("use lockpick on object - after");
+
+					debug_msg("skill level = " + get_critter_skill_points(caller, SKILL_LOCKPICK));
+					set_critter_skill_points(caller, SKILL_LOCKPICK, lockpickSkillLevel);
+					debug_msg("skill level = " + get_critter_skill_points(caller, SKILL_LOCKPICK));
+
+					debug_msg("");
+
+				end
+
+		end
 
 end
 
@@ -300,6 +432,12 @@ procedure handleUseObject begin
 	set_critter_skill_points(dude_obj, selectedSkill, additionalSkillLevel);
 	set_available_skill_points(get_available_skill_points + remainedBookAvailableSkillPoints);
 
+	// advance time
+
+	gfade_out(600);
+	game_time_advance(6 * ONE_GAME_HOUR);
+	gfade_in(600);
+
 	// display messages
 
 	display_msg(bookSkillMessages[selectedSkill]);
@@ -307,15 +445,13 @@ procedure handleUseObject begin
 
 	set_sfall_return(1);
 
-	// advance time
-
-	game_time_advance(6 * ONE_GAME_HOUR);
-
 	debug_msg("");
 
 end
 
 procedure handleDescriptionObject begin
+
+	debug_msg("handleDescriptionObject");
 
 	variable object = get_sfall_arg;
 	variable pid = obj_pid(object);
@@ -323,6 +459,15 @@ procedure handleDescriptionObject begin
 	variable descriptionMessage = message_str_game(GAME_MSG_PRO_ITEM, descriptionMessageId);
 	variable descriptionMessageSplit;
 	variable descriptionMessageModified;
+
+	// critter
+
+	if (obj_type(object) == OBJ_TYPE_CRITTER) then
+		begin
+			display_msg("pid = " + pid);
+			display_msg("HP  = " + get_critter_stat(object, STAT_max_hp));
+			display_msg("HP+ = " + get_proto_data(pid, PROTO_CR_BONUS_HP));
+		end
 
 	// weapon
 
@@ -552,58 +697,9 @@ begin
 
 end
 
-procedure handleUseSkillOn begin
-
-	display_msg("handleUseSkillOn");
-
-	variable user = get_sfall_arg;
-	variable object = get_sfall_arg;
-	variable skill = get_sfall_arg;
-
-	// dude lockipick
-
-	if (not (user == dude_obj and skill == SKILL_LOCKPICK)) then
-		return;
-
-	display_msg("dude lockipick");
-
-	// search inventory for lockpicks
-
-	display_msg("inven_count(user) = " + inven_count(user));
-	variable lockpicksObject = 0;
-	variable inventorySlot;
-	for (inventorySlot = 0; inventorySlot < inven_count(user); inventorySlot++)
-	begin
-
-		variable inventoryObject = inven_ptr(user, inventorySlot);
-		debug_msg("inventorySlot = " + inventorySlot);
-		debug_msg("inventoryObject = " + obj_name(inventoryObject));
-
-		// lockpicks
-
-		if (object and obj_pid(inventoryObject) == PID_LOCKPICKS) then
-			begin
-				lockpicksObject = inventoryObject;
-				display_msg("Lockpicks are in inventory. Slot = " + inventorySlot);
-				break;
-			end
-
-	end
-
-	if (lockpicksObject) then
-		begin
-			display_msg("before use");
-			use_obj_on_obj(lockpicksObject, object);
-			display_msg("after use");
-		end
-
-end
-
-procedure handleUseObjectOn begin
-
-	display_msg("handleUseObjectOn");
-
-end
+// ====================
+// functional methods
+// ====================
 
 procedure setFractionalAP
 begin
@@ -840,6 +936,36 @@ procedure modifyBurstWeaponAccurate begin
 
 end
 
+procedure modifyImprovedGrenadesAccurate begin
+
+	ndebug("modifyImprovedGrenadesAccurate");
+
+	variable improvedGrenadePidsString = get_ini_string("mods\\fo2tweaks.ini|improved_grenades|weapons");
+
+	if (improvedGrenadePidsString == "") then
+		return;
+
+	variable improvedGrenadePidStrings = string_split(improvedGrenadePidsString, ",");
+
+	variable pidString;
+	foreach (pidString in improvedGrenadePidStrings)
+	begin
+
+		if (pidString == "") then
+			continue;
+
+		variable pid = atoi(pidString);
+
+		set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_accurate);
+		debug_msg(proto_data(pid, it_name));
+		debug_msg("\tAccurate");
+
+	end
+
+	debug_msg("");
+
+end
+
 // ====================
 // utility methods
 // ====================
@@ -864,5 +990,50 @@ procedure item_w_subtype(variable weapon, variable hit_mode) begin
    end
 
    return type;
+end
+
+procedure getBestLockpicksLevel(variable critter, variable lockpicksType) begin
+
+	if (not (critter and (lockpicksType == 0 or lockpicksType == 1))) then
+		return 0;
+
+	variable pidLockpicksLevel1;
+	variable pidLockpicksLevel2;
+
+	if (lockpicksType == 0) then
+		begin
+			pidLockpicksLevel1 = PID_LOCKPICKS;
+			pidLockpicksLevel2 = PID_EXP_LOCKPICK_SET;
+		end
+	else
+	if (lockpicksType == 1) then
+		begin
+			pidLockpicksLevel1 = PID_ELECTRONIC_LOCKPICKS;
+			pidLockpicksLevel2 = PID_ELEC_LOCKPICK_MKII;
+		end
+	else
+		return;
+
+	variable bestLockpicksLevel = 0;
+
+	variable count = inven_count(critter);
+	variable slot;
+	for (slot = 0; slot < count; slot++)
+	begin
+		variable object = inven_ptr(critter, slot);
+		variable pid = obj_pid(object);
+		if (bestLockpicksLevel < 1 and pid == pidLockpicksLevel1) then
+			begin
+				bestLockpicksLevel = 1;
+			end
+		else
+		if (bestLockpicksLevel < 2 and pid == pidLockpicksLevel2) then
+			begin
+				bestLockpicksLevel = 2;
+			end
+	end
+
+	return bestLockpicksLevel;
+
 end
 

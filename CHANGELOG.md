@@ -83,3 +83,9 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 	* Standard: +35.
 	* Buckshot: +70.
 
+# 0.11
+
+* Added flare and home-made grenade (EcCo) to improved grenades FO2Tweaks list.
+* All improved grenades in fo2tweaks.ini/[improved_grenades]/weapons are given weapon accurate perk.
+* QoL: Lockpick skill is adjusted automatically with lockpicks in the inventory.
+
