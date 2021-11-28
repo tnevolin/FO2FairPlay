@@ -323,6 +323,30 @@ multiplier = (1 + <DR mod> / 100)
 | JHP, shotgun regular | +35 | 1.35 | leather to metal |
 | shotgun buckshot | +70 | 1.70 | unarmored to leather |
 
+## Armor normal DT/DR adjustment
+
+This is to make above ammor DR mod adjustment work smoother.
+
+* Lower armors are given more DT to have at least some stopping power against high DR mod ammo.
+* DT and DT values are distributed smoothly to make each next armor type distinctly better.
+
+| armor | DT | DR | most effective ammo type against |
+|----|----:|----:|----|
+| Leather jacket | 2 | 12 | shotgun buckshot |
+| Leather armor | 3 | 16 | shotgun buckshot - JHP, shotgun regular |
+| Combat leather jacket | 4 | 20 | JHP, shotgun regular |
+| Leather armor Mk II | 5 | 24 | JHP, shotgun regular - normal, shotgun slug |
+| Metal armor | 6 | 28 | normal, shotgun slug |
+| Metal armor Mk II | 7 | 32 | normal, shotgun slug |
+| Tesla armor | 8 | 36 | normal, shotgun slug - FMJ, ball |
+| Combat armor | 9 | 40 | normal, shotgun slug - FMJ, ball |
+| Combat armor Mk II | 10 | 44 | FMJ, ball |
+| Brotherhood armor | 11 | 48 | FMJ, ball |
+| Power armor | 12 | 52 | FMJ, ball - AP |
+| Hardened power armor | 13 | 56 | FMJ, ball - AP |
+| Advanced power armor | 14 | 60 | AP |
+| Advanced power armor Mk II | 15 | 64 | AP |
+
 # Quality of life
 
 ## Lockpicks

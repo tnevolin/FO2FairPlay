@@ -89,3 +89,7 @@ See [README](https://github.com/tnevolin/FO2FairPlay) for detailed modification 
 * All improved grenades in fo2tweaks.ini/[improved_grenades]/weapons are given weapon accurate perk.
 * QoL: Lockpick skill is adjusted automatically with lockpicks in the inventory.
 
+# 0.12
+
+* Adjusted armor normal DT/DR for smoother progression and more distributed weapon type selection.
+

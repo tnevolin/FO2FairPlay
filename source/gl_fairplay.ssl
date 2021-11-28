@@ -18,13 +18,16 @@ Requires sfall 4.3.0.2 +
 #define NAME "gl_fairplay"
 #define ndebug(message) debug_msg(NAME + ": " + message)
 
-// constants
-
+// lockpick skill level boost by each lockpicks level
 #define LOCKPICKS_SKILL_LEVEL_BOOST (20)
+// extra base skill rate on top of vanilla 5
 #define SKILL_RATE_BASE_CHANGE (10)
+// weapon Min ST multiplier for sqrt(damage)
 #define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER (1.20)
+// grenade Min ST multiplier for sqrt(damage)
 #define WEAPON_MINST_DAMAGE_SQRT_MULTIPLIER_GRENADE (0.40)
-#define WEAPON_MINST_BURST_DIVIDER (5)
+// weapon Min ST increase for burst size
+#define WEAPON_MINST_BURST_DIVIDER (6)
 
 variable lockpickSkillLevel;
 variable fractionalAP = 0.0;
@@ -52,12 +55,15 @@ procedure modifyShotguns;
 procedure modifyShotgunAmmunition;
 procedure modifyBurstWeaponAccurate;
 procedure modifyImprovedGrenadesAccurate;
+procedure modifyArmor;
 
 procedure item_w_subtype(variable weapon, variable attackMode);
 procedure getBestLockpicksLevel(variable critter, variable lockpicksType);
 
 procedure start begin
+	display_msg("start");
 	if game_loaded then begin
+	display_msg("game_loaded");
 
 		// standard procedure hooks
 
@@ -79,9 +85,9 @@ procedure start begin
 
 		mod_skill_points_per_level(SKILL_RATE_BASE_CHANGE - get_pc_base_stat(STAT_iq));
 
-		// trigger map enter
+		// modify proto data
 
-		call map_enter_p_proc;
+		call modifyProtoData;
 
 	end
 end
@@ -119,6 +125,10 @@ procedure modifyProtoData begin
 	// improved grenages weapon accurate
 
 	call modifyImprovedGrenadesAccurate;
+
+	// armor
+
+	call modifyArmor;
 
 end
 
@@ -739,10 +749,11 @@ procedure modifyAmmoACMod begin
 
 	ndebug("Ammo: set AC mod = 0");
 
-	// cycle through pids for ammo
-
 	variable pid;
 	for (pid = 1; pid < 2000; pid++) begin
+
+		if (proto_data(pid, it_pid) == 0) then
+			continue;
 
 		// ammo
 
@@ -769,6 +780,9 @@ procedure modifyWeaponMinST begin
 	for (pid = 1; pid < 2000; pid++)
 	begin
 
+		if (proto_data(pid, it_pid) == 0) then
+			continue;
+
 		// weapon
 
 		if (not (proto_data(pid, it_type) == item_type_weapon)) then
@@ -786,27 +800,12 @@ procedure modifyWeaponMinST begin
 		variable minSTOld = get_proto_data(pid, PROTO_WP_MIN_ST);
 		variable averageDamage = (get_proto_data(pid, PROTO_WP_DMG_MIN) + get_proto_data(pid, PROTO_WP_DMG_MAX)) / 2;
 		variable burst = get_proto_data(pid, PROTO_WP_BURST);
-		variable minST = max(minSTOld, 1 + floor(sqrt(averageDamage) * weaponMinSTDamageSqrtMultiplier + burst / WEAPON_MINST_BURST_DIVIDER));
+		variable minSTNew = (1 + floor(sqrt(averageDamage) * weaponMinSTDamageSqrtMultiplier + burst / WEAPON_MINST_BURST_DIVIDER));
+		variable minST = max(minSTOld, minSTNew);
 
 		set_proto_data(pid, PROTO_WP_MIN_ST, minST);
 
-		variable message = name + ":";
-		variable i;
-		for (i = strlen(message); i < 26; i++)
-		begin
-			message += " ";
-		end
-		if (averageDamage < 10) then
-			message += "  ";
-		else if (averageDamage < 100) then
-			message += " ";
-		message += " " + averageDamage;
-		if (burst < 10) then
-			message += " ";
-		message += " " + burst;
-		if (minST < 10) then
-			message += " ";
-		message += " " + minST;
+		variable message = sprintf("%-26s", name) + sprintf(" %3d", averageDamage) + sprintf("(%2d)", burst) + sprintf(" => %2d", minSTNew);
 		debug_msg(message);
 
 	end
@@ -822,6 +821,9 @@ procedure modifyShotguns begin
 	variable pid;
 	for (pid = 1; pid < 2000; pid++)
 	begin
+
+		if (proto_data(pid, it_pid) == 0) then
+			continue;
 
 		// weapon
 
@@ -866,6 +868,9 @@ procedure modifyShotgunAmmunition begin
 	for (pid = 1; pid < 2000; pid++)
 	begin
 
+		if (proto_data(pid, it_pid) == 0) then
+			continue;
+
 		// ammunition
 
 		if (not (proto_data(pid, it_type) == item_type_ammo)) then
@@ -902,6 +907,9 @@ procedure modifyBurstWeaponAccurate begin
 	variable pid;
 	for (pid = 1; pid < 2000; pid++)
 	begin
+
+		if (proto_data(pid, it_pid) == 0) then
+			continue;
 
 		// weapon
 
@@ -959,6 +967,65 @@ procedure modifyImprovedGrenadesAccurate begin
 		set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_accurate);
 		debug_msg(proto_data(pid, it_name));
 		debug_msg("\tAccurate");
+
+	end
+
+	debug_msg("");
+
+end
+
+procedure modifyArmor begin
+
+	ndebug("modifyArmor");
+	debug_msg("(name/old/new");
+
+	variable armorData = {};
+	armorData[PID_LEATHER_JACKET] = [2, 12];
+	armorData[PID_LEATHER_ARMOR] = [3, 16];
+	armorData[PID_CURED_LEATHER_ARMOR] = [4, 20];
+	armorData[PID_LEATHER_ARMOR_MK_II] = [5, 24];
+	armorData[PID_METAL_ARMOR] = [6, 28];
+	armorData[PID_METAL_ARMOR_MK_II] = [7, 32];
+	armorData[PID_TESLA_ARMOR] = [8, 36];
+	armorData[PID_COMBAT_ARMOR] = [9, 40];
+	armorData[PID_COMBAT_ARMOR_MK_II] = [10, 44];
+	armorData[PID_BROTHERHOOD_COMBAT_ARMOR] = [11, 48];
+	armorData[PID_POWERED_ARMOR] = [12, 52];
+	armorData[PID_HARDENED_POWER_ARMOR] = [13, 56];
+	armorData[PID_ADVANCED_POWER_ARMOR] = [14, 60];
+	armorData[PID_ADVANCED_POWER_ARMOR_MK2] = [15, 64];
+
+	variable pid, data;
+	foreach (pid : data in armorData) begin
+
+		debug_msg(sprintf("%-25s", proto_data(pid, it_name)));
+
+		debug_msg
+		(
+			"\t"
+			+ " N:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_NORMAL)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_NORMAL))
+			+ " F:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_FIRE)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_FIRE))
+			+ " L:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_LASER)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_LASER))
+			+ " P:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_PLASMA)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_PLASMA))
+			+ " E:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_ELECTRICAL)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_ELECTRICAL))
+			+ " X:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_EXPLOSION)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_EXPLOSION))
+		)
+		;
+
+		set_proto_data(pid, PROTO_AR_DT_NORMAL, data[0]);
+		set_proto_data(pid, PROTO_AR_DR_NORMAL, data[1]);
+
+		debug_msg
+		(
+			"\t"
+			+ " N:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_NORMAL)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_NORMAL))
+			+ " F:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_FIRE)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_FIRE))
+			+ " L:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_LASER)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_LASER))
+			+ " P:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_PLASMA)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_PLASMA))
+			+ " E:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_ELECTRICAL)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_ELECTRICAL))
+			+ " X:" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DT_EXPLOSION)) + "/" + sprintf("%2d", get_proto_data(pid, PROTO_AR_DR_EXPLOSION))
+		)
+		;
 
 	end
 
