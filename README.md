@@ -29,9 +29,7 @@ sFall: to all its authors and contributors. Making modding much easier!
 
 # Balance
 
-## Hit points
-
-### Changes
+## HP (hit points)
 
 * Max HP reflects base max HP change due to bonus EN.
 * Base max HP is given big static bonus and bigger EN bonus but no ST bonus.
@@ -39,24 +37,21 @@ sFall: to all its authors and contributors. Making modding much easier!
 base max HP = 15 + 5 * EN
 ```
 
-### Consequences
-
-* Max HP depends on EN only. Cleaner this way.
+* Max HP depends on EN only. Cleaner this way. ST is already heavily overused.
 * Drugs affecting EN result in corresponding max HP change.
 * Temple of Trials is passable even for non combat character.
 * Early encounters are somewheat more doable even without companions.
+* Allows a quite wide HP distribution for start for experimenting.
 
-## Base AP and AC
+## AP (action points) and AC (armor class)
 
 ```
-AP = 7 + AG / 4 (fractional AP are accumulated over combat rounds)
+AP = 8 + [AG above 8]
 AC = 2 * AG
 ```
 
-* Base AP is now sufficient to perform any action and making even lowest AG player moderately combat mobile.
-* Every AG point matters. No more lost AP fractions and stupid fiddling with even values. Ugh.
-* AG is now brings only 1/4 AP making direct AP effects (drug, perks) more valuable in this regards.
-* AG now influences natural AC making it more defense related and less attack rate related.
+* Base AP is equivalent to vanilla 6 AG and is sufficient to perform any combat action. AG stat is no longer mandatory.
+* AG is now more defense related and less attack rate related.
 * Taking AG increasing drugs now makes more defensive sense.
 
 ## Melee damage
@@ -65,7 +60,7 @@ AC = 2 * AG
 Melee damage = ST
 ```
 
-More effect of ST on unarmed/melee damage. In vanilla it was quite unnoticeable.
+* More effect of ST on unarmed/melee damage.
 
 ## Carry weight
 
@@ -74,13 +69,12 @@ Carry weight = 75 + 25 * ST
 ```
 
 Carry weight is a QoL and is not some strategical part of the game. Insufficient carry weight causes only frustration in my opinion. This is purely optional, though.
-
 With this formula even ST=1 character can carry some minimal equipment set.
 
 ## Rad resitance
 
 ```
-Rad resistance = 4 * EN
+Rad resistance = 5 * EN
 ```
 
 Vanilla rad resistance level seems to be completely ignorable. With this update EN gets a little more appeal to player. At least they can now eat more irradiated food for less consequences.
