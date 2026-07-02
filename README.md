@@ -122,36 +122,29 @@ Most non combat skills reach their max usefulness at around 100%. Combat skills 
 
 ## Unarmed attacks
 
-* skill: required skill
-* stats: required stats
-* bonus: bonus damage
-* AP: AP requirement
-* crit: bonus criticals
-* prc: armor piercing
-* dmg: average damage with ST=5
-* dmg / AP: average damage (accounting criticals) per AP
+| name | type | skill | AP | ~damage | crit+ | pierce | ~dmg / AP |
+|----|----|----:|----:|----:|----:|:----:|----:|
+| Punch 			| punch - primary 	|     | 3 |  3 |    |   | 1.00 |
+| Kick 				| kick - primary 	|     | 5 |  5 |    |   | 1.00 |
+| Strong Punch 		| punch - primary 	|  40 | 3 |  4 |    |   | 1.33 |
+| Strong Kick 		| kick - primary 	|  50 | 5 |  7 |    |   | 1.40 |
+| Jab 				| punch - secondary |  60 | 4 |  5 | 10 |   | 1.45 |
+| Hip Kick 			| kick - secondary 	|  70 | 6 | 10 |    |   | 1.67 |
+| Hammer Punch 		| punch - primary 	|  80 | 3 |  6 |  5 |   | 2.10 |
+| Snap Kick 		| kick - primary 	|  90 | 5 | 12 |    |   | 2.40 |
+| Palm Strike 		| punch - secondary | 100 | 4 |  6 | 30 | + | 2.60 |
+| Hook Kick 		| kick - secondary 	| 110 | 6 | 15 | 10 | + | 3.20 |
+| Haymaker 			| punch - primary 	| 120 | 3 |  9 | 15 |   | 3.30 |
+| Power Kick 		| kick - primary 	| 130 | 5 | 18 |  5 |   | 3.70 |
+| Piercing Strike 	| punch - secondary | 140 | 4 | 12 | 50 | + | 4.50 |
+| Piercing Kick 	| kick - secondary 	| 150 | 6 | 24 | 20 | + | 4.90 |
 
-| name | skill | stats | bonus | AP | crit | prc | dmg | dmg / AP |
-|----|----:|----|----:|----:|----:|:----:|----:|----:|
-| Strong Kick | 40 | AG=4 | +5 | 4 | | | 8 | 2.00 |
-| Strong Punch | 50 | AG=4 | +3 | 3 | | | 6 | 2.00 |
-| Hip Kick | 60 | AG=4 | +10 | 4 | | | 13 | 3.25 |
-| Jab | 70 | AG=4 | +7 | 3 | 10 | | 10 | 3.67 |
-| Snap Kick | 80 | AG/ST=4 | +18 | 4 | | | 21 | 5.25 |
-| Hammer Punch | 90 | AG/ST=4 | +13 | 3 | 5 | | 16 | 5.60 |
-| Hook Kick | 100 | AG/ST=5 | +30 | 5 | 10 | + | 33 | 7.26 |
-| Palm Strike | 110 | AG/ST=5 | +20 | 4 | 30 | + | 23 | 7.48 |
-| Power Kick | 120 | AG/ST/EN=4 | +30 | 4 | 5 | | 33 | 8.66 |
-| Haymaker | 130 | AG/ST/EN=4 | +20 | 3 | 15 | | 23 | 8.82 |
-| Peircing Kick | 140 | AG/ST/EN=6 | +45 | 6 | 20 | + | 48 | 9.60 |
-| Peircing Strike | 150 | AG/ST/EN=6 | +30 | 5 | 50 | + | 33 | 9.90 |
-
-* New attacks come at 10% skill intervals.
-* Stats requirements are reduced especially on lower level when player may not have drugs to raise them. EN requirement added for top level attacks instead.
-* Secondary attack AP requirements are reduced to have smoother progression. Vanilla 9 AP attack cost is completely insane.
-* Average damage (accounting criticals) per AP steadily grows with more advanced attack. There is no a single attack comptely inferior to preceeding one.
-* Punches are faster, deliver slightly more damage / AP, and have higher criticals. Kicks are generaly more damaging per attack.
-* Secondary attacks take more time but more damaging, and have higher criticals comparing to primary ones.
+* Starts with low skill and progresses steadily at equal intervals.
+* No level requirements. No stats requirements.
+* Stable speed progression: primary punch -> secondary punch -> primary kick -> secondary kick.
+* Punches are faster and add more critical bonus. Kicks are more damaging.
+* Secondary attacks take more time but more damaging, and have higher criticals comparing to primary ones. Top level secondary attacks are also armor piercing.
+* Average damage per AP rate (with criticals and armor piercing) steadily grows with more advanced attack. There is no a single attack comptely inferior to preceeding one.
 * High end unarmed attacks are comparable to mega power fist.
 
 Streamlined unarmed attacks to reduce table consulting during the game and make it more intuitive and easy to chose options. Now player naturally uses faster punches agains unarmored targets for maximized damage / AP, switch to kicks against more armored ones, and then to top level secondary attacks for higher damage and armor piercing. Also higher level punches provide hefty critical bonus at expense of sheer damage if player wants to rely on aimed criticals or just for increased fun.
