@@ -92,23 +92,9 @@ Of course, it would be better to correct skills themselves and make them work ev
 
 Most non combat skills reach their max usefulness at around 100%. Combat skills are already almost perfect at 200% which is what normal game pace without grinding provides anyway. I have tightened the SP cost to make player cherish every point and be mindful of their character specialization and not to become jack-of-all-trades.
 
-* Skill cost is based on skill level added on top of base and other bonuses. Thus eliminating skill cost exploits.
-* Average stats character should end up with all initial skills at about 25%.
-* Skill level advancement cost start from 1 SP and then increments every 25% skill added.
-
-#### Skill advancement cost based on added skill level
-
-```
-  1% to  25% costs 1 skill point
- 26% to  50% costs 2 skill points
- 51% to  75% costs 3 Skill points
- 76% to 100% costs 4 Skill points
-101% to 125% costs 5 Skill points
-126% to 300% costs 6 Skill points
-```
-
 ## Skill initial formulas
 
+* Average stats character has all initial skills at 25%.
 * Combat skills base is about same for all of them. No more Small Guns preference.
 * Combat skills depends on various more or less lore related stats.
 * Speach and Barter are both now 5% x CH increasing CH stat attractiveness.
