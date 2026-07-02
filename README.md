@@ -29,14 +29,14 @@ sFall: to all its authors and contributors. Making modding much easier!
 
 # Balance
 
-## Base HP
+## Hit points
 
 ### Changes
 
 * Max HP reflects base max HP change due to bonus EN.
 * Base max HP is given big static bonus and bigger EN bonus but no ST bonus.
 ```
-base max HP = 15 + 3 * EN
+base max HP = 15 + 5 * EN
 ```
 
 ### Consequences
